@@ -41,11 +41,11 @@ model Profile {
   firstName    String
   lastName     String
   gender       Gender
-  dateOfBirth  DateTime
-  address      String
+  dateOfBirth  DateTime?
+  address      String?
   image        String?
   contactNo    String
-  emergContact String
+  emergContact String?
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
