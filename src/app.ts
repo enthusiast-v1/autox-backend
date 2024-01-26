@@ -21,7 +21,7 @@ app.use(globalErrorHandler);
 
 // Test Route
 app.get('/test', async (req: Request, res: Response) => {
-  res.json('The server is on 🔥 💧 🔥');
+  res.json('The AutoX server is on 🔥 💧 🔥');
 });
 
 // Handle Not Found
