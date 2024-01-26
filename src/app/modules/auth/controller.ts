@@ -3,6 +3,7 @@ import catchAsync from '../../../shared/catchAsync';
 import { AuthService } from './service';
 import config from '../../../config';
 import sendResponse from '../../../shared/sendResponse';
+import { TLoginResponse, TRegisterResponse } from './interface';
 
 const login = catchAsync(async (req: Request, res: Response) => {
   const { accessToken, refreshToken } = await AuthService.login(req.body);
@@ -12,7 +13,7 @@ const login = catchAsync(async (req: Request, res: Response) => {
     httpOnly: true,
   });
 
-  sendResponse(res, {
+  sendResponse<Omit<TLoginResponse, 'refreshToken'>>(res, {
     statusCode: 200,
     success: true,
     message: 'User login successfully',
@@ -20,4 +21,22 @@ const login = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const AuthController = { login };
+const register = catchAsync(async (req: Request, res: Response) => {
+  const { accessToken, refreshToken, user } = await AuthService.register(
+    req.body,
+  );
+
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.env === 'production',
+    httpOnly: true,
+  });
+
+  sendResponse<Omit<TRegisterResponse, 'refreshToken'>>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User registered successfully!',
+    data: { accessToken, user },
+  });
+});
+
+export const AuthController = { login, register };
