@@ -70,7 +70,6 @@ model Car {
   plate_no Int
   chassis_no Int
   status String
-  owner String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
