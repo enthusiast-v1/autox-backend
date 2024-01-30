@@ -1,8 +1,8 @@
+import { RentType } from '@prisma/client';
 import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
-import { RentTypeService } from './service';
 import sendResponse from '../../../shared/sendResponse';
-import { RentType } from '@prisma/client';
+import { RentTypeService } from './service';
 
 const createRentType = catchAsync(async (req: Request, res: Response) => {
   const data = await RentTypeService.createRentType(req.body);
