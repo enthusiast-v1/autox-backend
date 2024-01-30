@@ -7,14 +7,16 @@ import { ERole } from '@prisma/client';
 
 const router = Router();
 const { ADMIN, SUPER_ADMIN } = ERole;
-const { createRentType } = RentTypeController;
+const { createRentType, getRentType } = RentTypeController;
 const { ZCreateRentType } = RentTypeValidation;
 
-router.post(
-  '/',
-  auth(ADMIN, SUPER_ADMIN),
-  validateRequest(ZCreateRentType),
-  createRentType,
-);
+router
+  .post(
+    '/',
+    auth(ADMIN, SUPER_ADMIN),
+    validateRequest(ZCreateRentType),
+    createRentType,
+  )
+  .get('/:id', getRentType);
 
 export const RentTypeRoutes = router;

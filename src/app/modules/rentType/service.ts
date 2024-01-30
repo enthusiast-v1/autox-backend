@@ -10,4 +10,12 @@ const createRentType = async (data: RentType): Promise<RentType> => {
   return rentType;
 };
 
-export const RentTypeService = { createRentType };
+const getRentType = async (id: string): Promise<RentType> => {
+  const rentType = await prisma.rentType.findUnique({ where: { id } });
+
+  if (!rentType) throw new ApiError(404, 'Rent type not found!');
+
+  return rentType;
+};
+
+export const RentTypeService = { createRentType, getRentType };

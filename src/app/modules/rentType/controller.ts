@@ -15,4 +15,15 @@ const createRentType = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const RentTypeController = { createRentType };
+const getRentType = catchAsync(async (req: Request, res: Response) => {
+  const data = await RentTypeService.getRentType(req.params.id);
+
+  sendResponse<RentType>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Rent type retrieved successfully',
+    data,
+  });
+});
+
+export const RentTypeController = { createRentType, getRentType };
