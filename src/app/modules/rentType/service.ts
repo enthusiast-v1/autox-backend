@@ -18,4 +18,10 @@ const getRentType = async (id: string): Promise<RentType> => {
   return rentType;
 };
 
-export const RentTypeService = { createRentType, getRentType };
+const getRentTypes = async (): Promise<RentType[]> => {
+  const rentTypes = await prisma.rentType.findMany();
+
+  return rentTypes;
+};
+
+export const RentTypeService = { createRentType, getRentType, getRentTypes };
