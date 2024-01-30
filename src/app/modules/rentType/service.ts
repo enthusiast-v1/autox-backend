@@ -3,6 +3,12 @@ import prisma from '../../../constants/prisma';
 import ApiError from '../../../errors/ApiError';
 
 const createRentType = async (data: RentType): Promise<RentType> => {
+  const isExist = await prisma.rentType.findFirst({
+    where: { type: data.type },
+  });
+
+  if (isExist) throw new ApiError(409, 'The rent type is already exists!');
+
   const rentType = await prisma.rentType.create({ data });
 
   if (!rentType) throw new ApiError(400, 'Failed to create rent type!');
