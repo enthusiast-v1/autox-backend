@@ -55,3 +55,23 @@ model Profile {
 
   @@map("profiles")
 }
+
+
+model Car {
+  id String @id @default(uuid())
+  name String
+  image String
+  color String
+  overview String @db.Text()
+  base_price Int
+  fuel_type String
+  seats Int
+  location String
+  plate_no Int
+  chassis_no Int
+  status String
+  owner String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
