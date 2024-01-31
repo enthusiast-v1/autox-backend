@@ -1,9 +1,18 @@
-// import prisma from "../../../constants/prisma"
+import prisma from '../../../constants/prisma';
 
-// const generateDriverId = async() => {
-//       const lastDriver = await prisma.driver.findFirst({orderBy : {createdAt : 'desc'}})
+const generateDriverId = async (): Promise<string> => {
+  const lastDriver = await prisma.driver.findFirst({
+    orderBy: { createdAt: 'desc' },
+  });
 
-//       if(lastDriver){
-//             const currId = lastDriver.de
-//       }
-// }
+  const newId =
+    (lastDriver &&
+      (Number(lastDriver.driverId.split('-')[1]) + 1)
+        .toString()
+        .padStart(5, '0')) ||
+    '00001';
+
+  return `D-${newId}`;
+};
+
+export const DriverUtils = { generateDriverId };
