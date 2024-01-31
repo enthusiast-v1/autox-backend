@@ -53,6 +53,21 @@ enum EVehicleType {
   XXXL
 }
 
+enum EVehicleBrand {
+  Toyota
+  Hyundai
+  Audi
+  Proton
+  Mitsubishi
+  BMW
+  Suzuki
+  Subaru
+  Nissan
+  Mercedes
+  Mazda
+  Honda
+}
+
 enum EVehicleStatus {
   Available
   In_A_Trip
@@ -118,19 +133,6 @@ model Profile {
   @@map("profiles")
 }
 
-model VehicleBrand {
-  id String @id @default(uuid())
-
-  brand String
-
-  vehicles Vehicle[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("vehicle_brands")
-}
-
 model Vehicle {
   id                String         @id @default(uuid())
   vehicleId         String
@@ -138,7 +140,7 @@ model Vehicle {
   mileage           Float
   color             String
   images            String[]
-  overview          String         @db.VarChar()
+  overview          String
   basePrice         Int
   fuelType          EFuelType
   passengerCapacity Int
@@ -148,12 +150,10 @@ model Vehicle {
   status            EVehicleStatus @default(Available)
   owner             String?
   vehicleType       EVehicleType
+  brand             EVehicleBrand
 
   driverId String @unique
   driver   Driver @relation(fields: [driverId], references: [id])
-
-  brandId String
-  brand   VehicleBrand @relation(fields: [brandId], references: [id])
 
   bookings Booking[]
 
@@ -161,18 +161,6 @@ model Vehicle {
   updatedAt DateTime @updatedAt
 
   @@map("vehicles")
-}
-
-model RentType {
-  id String @id @default(uuid())
-
-  type    ERentType
-  booking Booking?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("rent_types")
 }
 
 model Booking {
@@ -185,6 +173,7 @@ model Booking {
   dropOffTime     DateTime
   pickUpLocation  String
   dropOffLocation String
+  rentType        ERentType
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
@@ -193,9 +182,6 @@ model Booking {
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
 
   promoId String?
-
-  rentTypeId String   @unique
-  rentType   RentType @relation(fields: [rentTypeId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
