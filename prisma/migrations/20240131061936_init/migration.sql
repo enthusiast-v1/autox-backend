@@ -76,6 +76,8 @@ CREATE TABLE "vehicle_brands" (
 -- CreateTable
 CREATE TABLE "vehicles" (
     "id" TEXT NOT NULL,
+    "vehicleId" TEXT NOT NULL,
+    "model" TEXT NOT NULL,
     "mileage" DOUBLE PRECISION NOT NULL,
     "color" TEXT NOT NULL,
     "images" TEXT[],

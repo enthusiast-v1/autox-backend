@@ -131,8 +131,9 @@ model VehicleBrand {
 }
 
 model Vehicle {
-  id String @id @default(uuid())
-
+  id                String         @id @default(uuid())
+  vehicleId         String
+  model             String
   mileage           Float
   color             String
   images            String[]
