@@ -1,4 +1,4 @@
-export type ICar = {
+export type IVehicle = {
   name: string;
   image: string;
   color: string;

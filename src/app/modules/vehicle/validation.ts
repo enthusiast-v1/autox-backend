@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const ZAddCar = z.object({
+const ZCreateVehicle = z.object({
   body: z.object({
     name: z.string({ required_error: ' name is required!' }),
     color: z.string({ required_error: 'color is required!' }),
@@ -16,4 +16,4 @@ const ZAddCar = z.object({
   }),
 });
 
-export const CarValidation = { ZAddCar };
+export const VehicleValidation = { ZCreateVehicle };

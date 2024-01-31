@@ -57,20 +57,22 @@ model Profile {
 }
 
 
-model Car {
+model Vehicle {
   id String @id @default(uuid())
   name String
-  image String
+  image String[]
   color String
   overview String @db.Text()
-  base_price Int
-  fuel_type String
+  basePrice Int
+  fuelType String
   seats Int
   location String
-  plate_no Int
-  chassis_no Int
+  plateNo Int
+  chassisNo Int
   status String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("vehicels")
 }

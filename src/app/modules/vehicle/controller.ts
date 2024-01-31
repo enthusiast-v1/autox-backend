@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { CarService } from './car.service';
+import { VehicleService } from './service';
 
-const add = catchAsync(async (req: Request, res: Response) => {
-  const result = await CarService.add(req.body);
+const createVehicle = catchAsync(async (req: Request, res: Response) => {
+  const result = await VehicleService.createVehicle(req.body);
   sendResponse(res, {
     statusCode: 201,
     success: true,
@@ -13,8 +13,8 @@ const add = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const findAll = catchAsync(async (req: Request, res: Response) => {
-  const result = await CarService.findAll();
+const findAllVehicle = catchAsync(async (req: Request, res: Response) => {
+  const result = await VehicleService.findAllVehicle();
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -23,4 +23,4 @@ const findAll = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const CarController = { add, findAll };
+export const VehicleController = { createVehicle, findAllVehicle };

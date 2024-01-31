@@ -1,7 +1,7 @@
 import prisma from '../../../constants/prisma';
-import { ICar } from './car.interface';
+import { IVehicle } from './interface';
 
-const add = async (carData: ICar) => {
+const createVehicle = async (carData: IVehicle) => {
   const newCar = await prisma.car.create({
     data: carData,
   });
@@ -9,11 +9,11 @@ const add = async (carData: ICar) => {
   return newCar;
 };
 
-const findAll = async () => {
+const findAllVehicle = async () => {
   const result = await prisma.car.findMany();
   return result;
 };
-export const CarService = {
-  add,
-  findAll,
+export const VehicleService = {
+  createVehicle,
+  findAllVehicle,
 };
