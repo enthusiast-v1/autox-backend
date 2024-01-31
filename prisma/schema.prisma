@@ -80,6 +80,7 @@ model User {
 model Driver {
   id String @id @default(uuid())
 
+  driverId      String
   licenseNo     String
   licenseExpire DateTime
   nidNo         String
@@ -177,6 +178,7 @@ model RentType {
 model Booking {
   id String @id @default(uuid())
 
+  bookingId       String
   pickUpDate      DateTime
   dropOffDate     DateTime
   pickUpTime      DateTime

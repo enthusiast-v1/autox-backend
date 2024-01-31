@@ -34,6 +34,7 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "drivers" (
     "id" TEXT NOT NULL,
+    "driverId" TEXT NOT NULL,
     "licenseNo" TEXT NOT NULL,
     "licenseExpire" TIMESTAMP(3) NOT NULL,
     "nidNo" TEXT NOT NULL,
@@ -112,6 +113,7 @@ CREATE TABLE "rent_types" (
 -- CreateTable
 CREATE TABLE "bookings" (
     "id" TEXT NOT NULL,
+    "bookingId" TEXT NOT NULL,
     "pickUpDate" TIMESTAMP(3) NOT NULL,
     "dropOffDate" TIMESTAMP(3) NOT NULL,
     "pickUpTime" TIMESTAMP(3) NOT NULL,
