@@ -5,7 +5,19 @@ CREATE TYPE "ERole" AS ENUM ('CUSTOMER', 'DRIVER', 'ADMIN', 'SUPER_ADMIN');
 CREATE TYPE "EGender" AS ENUM ('Male', 'Female', 'Others');
 
 -- CreateEnum
+CREATE TYPE "EDriverStatus" AS ENUM ('Available', 'In_A_Trip', 'Accident', 'On_Vacation');
+
+-- CreateEnum
 CREATE TYPE "ERentType" AS ENUM ('Hourly', 'Daily', 'Weekly', 'Monthly', 'Yearly');
+
+-- CreateEnum
+CREATE TYPE "EFuelType" AS ENUM ('LPG', 'CNG', 'Petrol', 'Diesel', 'Gasoline', 'Kerosene');
+
+-- CreateEnum
+CREATE TYPE "EVehicleType" AS ENUM ('S', 'M', 'L', 'XL', 'XXL', 'XXXL');
+
+-- CreateEnum
+CREATE TYPE "EVehicleStatus" AS ENUM ('Available', 'In_A_Trip', 'Accident', 'Maintenance');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -17,6 +29,20 @@ CREATE TABLE "users" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "drivers" (
+    "id" TEXT NOT NULL,
+    "licenseNo" TEXT NOT NULL,
+    "licenseExpire" TIMESTAMP(3) NOT NULL,
+    "nidNo" TEXT NOT NULL,
+    "status" "EDriverStatus" NOT NULL DEFAULT 'Available',
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "drivers_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -38,8 +64,33 @@ CREATE TABLE "profiles" (
 );
 
 -- CreateTable
+CREATE TABLE "vehicle_brands" (
+    "id" TEXT NOT NULL,
+    "brand" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "vehicle_brands_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "vehicles" (
     "id" TEXT NOT NULL,
+    "mileage" DOUBLE PRECISION NOT NULL,
+    "color" TEXT NOT NULL,
+    "images" TEXT[],
+    "overview" VARCHAR NOT NULL,
+    "basePrice" INTEGER NOT NULL,
+    "fuelType" "EFuelType" NOT NULL,
+    "passengerCapacity" INTEGER NOT NULL,
+    "location" TEXT NOT NULL,
+    "plateNo" TEXT NOT NULL,
+    "chassisNo" TEXT NOT NULL,
+    "status" "EVehicleStatus" NOT NULL DEFAULT 'Available',
+    "owner" TEXT,
+    "vehicleType" "EVehicleType" NOT NULL,
+    "driverId" TEXT NOT NULL,
+    "brandId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -79,13 +130,28 @@ CREATE TABLE "bookings" (
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "drivers_userId_key" ON "drivers"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "profiles_userId_key" ON "profiles"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "vehicles_driverId_key" ON "vehicles"("driverId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "bookings_rentTypeId_key" ON "bookings"("rentTypeId");
 
 -- AddForeignKey
+ALTER TABLE "drivers" ADD CONSTRAINT "drivers_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "profiles" ADD CONSTRAINT "profiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "vehicles" ADD CONSTRAINT "vehicles_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "drivers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "vehicles" ADD CONSTRAINT "vehicles_brandId_fkey" FOREIGN KEY ("brandId") REFERENCES "vehicle_brands"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "bookings" ADD CONSTRAINT "bookings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

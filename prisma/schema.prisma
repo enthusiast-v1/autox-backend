@@ -20,12 +20,44 @@ enum EGender {
   Others
 }
 
+enum EDriverStatus {
+  Available
+  In_A_Trip
+  Accident
+  On_Vacation
+}
+
 enum ERentType {
   Hourly
   Daily
   Weekly
   Monthly
   Yearly
+}
+
+enum EFuelType {
+  LPG
+  CNG
+  Petrol
+  Diesel
+  Gasoline
+  Kerosene
+}
+
+enum EVehicleType {
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+}
+
+enum EVehicleStatus {
+  Available
+  In_A_Trip
+  Accident
+  Maintenance
 }
 
 model User {
@@ -36,12 +68,32 @@ model User {
   role     ERole  @default(CUSTOMER)
 
   profile  Profile?
+  driver   Driver?
   bookings Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+model Driver {
+  id String @id @default(uuid())
+
+  licenseNo     String
+  licenseExpire DateTime
+  nidNo         String
+  status        EDriverStatus @default(Available)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  vehicle Vehicle?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("drivers")
 }
 
 model Profile {
@@ -65,8 +117,41 @@ model Profile {
   @@map("profiles")
 }
 
+model VehicleBrand {
+  id String @id @default(uuid())
+
+  brand String
+
+  vehicles Vehicle[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("vehicle_brands")
+}
+
 model Vehicle {
   id String @id @default(uuid())
+
+  mileage           Float
+  color             String
+  images            String[]
+  overview          String         @db.VarChar()
+  basePrice         Int
+  fuelType          EFuelType
+  passengerCapacity Int
+  location          String
+  plateNo           String
+  chassisNo         String
+  status            EVehicleStatus @default(Available)
+  owner             String?
+  vehicleType       EVehicleType
+
+  driverId String @unique
+  driver   Driver @relation(fields: [driverId], references: [id])
+
+  brandId String
+  brand   VehicleBrand @relation(fields: [brandId], references: [id])
 
   bookings Booking[]
 
