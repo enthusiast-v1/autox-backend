@@ -7,9 +7,7 @@ const ZProfileUpdate = z.object({
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     gender: z
-      .enum([...Object.keys(EGender)] as [string, ...string[]], {
-        required_error: 'Gender is required!',
-      })
+      .enum([...Object.keys(EGender)] as [string, ...string[]])
       .optional(),
     address: z.string().optional(),
     image: z.string().optional(),
