@@ -3,7 +3,6 @@ import { EFuelType, EVehicleStatus, EVehicleType } from '@prisma/client';
 
 const ZCreateVehicle = z.object({
   body: z.object({
-    vehicleId: z.string({ required_error: 'Vehicle id is required!' }),
     model: z.string({ required_error: 'Modle is required!' }),
     mileage: z.number({ required_error: 'Mileage is required!' }),
     color: z.string({ required_error: 'Color is required!' }),
