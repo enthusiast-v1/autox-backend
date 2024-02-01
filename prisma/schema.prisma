@@ -7,29 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-<<<<<<< HEAD
-enum Role {
-=======
+
+
 enum ERole {
->>>>>>> dev-borhan
+
   CUSTOMER
   DRIVER
   ADMIN
   SUPER_ADMIN
 }
 
-<<<<<<< HEAD
-enum Gender {
-=======
+
 enum EGender {
->>>>>>> dev-borhan
   Male
   Female
   Others
 }
 
-<<<<<<< HEAD
-=======
 enum ERentType {
   Hourly
   Daily
@@ -38,22 +32,18 @@ enum ERentType {
   Yearly
 }
 
->>>>>>> dev-borhan
+
 model User {
   id String @id @default(uuid())
 
   email    String @unique
   password String
-<<<<<<< HEAD
-  role     Role   @default(CUSTOMER)
 
   profile Profile?
-=======
-  role     ERole  @default(CUSTOMER)
 
-  profile  Profile?
+  role     ERole  @default(CUSTOMER)
   bookings Booking[]
->>>>>>> dev-borhan
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -66,11 +56,9 @@ model Profile {
 
   firstName    String
   lastName     String
-<<<<<<< HEAD
-  gender       Gender
-=======
+
   gender       EGender
->>>>>>> dev-borhan
+
   dateOfBirth  DateTime?
   address      String?
   image        String?
@@ -84,8 +72,6 @@ model Profile {
   updatedAt DateTime @updatedAt
 
   @@map("profiles")
-<<<<<<< HEAD
-=======
 }
 
 
@@ -149,6 +135,4 @@ model Booking {
   updatedAt DateTime @updatedAt
 
   @@map("bookings")
-
->>>>>>> dev-borhan
 }
