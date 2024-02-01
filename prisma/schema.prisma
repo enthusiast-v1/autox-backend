@@ -7,12 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 enum ERole {
+
   CUSTOMER
   DRIVER
   ADMIN
   SUPER_ADMIN
 }
+
 
 enum EGender {
   Male
@@ -20,23 +24,18 @@ enum EGender {
   Others
 }
 
-enum ERentType {
-  Hourly
-  Daily
-  Weekly
-  Monthly
-  Yearly
-}
+
 
 model User {
   id String @id @default(uuid())
 
   email    String @unique
   password String
+
+  profile Profile?
+
   role     ERole  @default(CUSTOMER)
 
-  profile  Profile?
-  bookings Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -49,7 +48,9 @@ model Profile {
 
   firstName    String
   lastName     String
+
   gender       EGender
+
   dateOfBirth  DateTime?
   address      String?
   image        String?
@@ -65,52 +66,27 @@ model Profile {
   @@map("profiles")
 }
 
+
+
 model Vehicle {
   id String @id @default(uuid())
-
-  bookings Booking[]
+  name String
+  image String[]
+  color String
+  overview String @db.Text()
+  basePrice Int
+  fuelType String
+  seats Int
+  location String
+  plateNo Int
+  chassisNo Int
+  status String
+  
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("vehicles")
-}
+  }
 
-model RentType {
-  id String @id @default(uuid())
 
-  type    ERentType
-  booking Booking?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("rent_types")
-}
-
-model Booking {
-  id String @id @default(uuid())
-
-  pickUpDate      DateTime
-  dropOffDate     DateTime
-  pickUpTime      DateTime
-  dropOffTime     DateTime
-  pickUpLocation  String
-  dropOffLocation String
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  vehicleId String
-  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
-
-  promoId String?
-
-  rentTypeId String   @unique
-  rentType   RentType @relation(fields: [rentTypeId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("bookings")
-}

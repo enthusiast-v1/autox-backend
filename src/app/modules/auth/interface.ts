@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { Gender, User } from '@prisma/client';
+=======
 import { EGender, User } from '@prisma/client';
+>>>>>>> dev-borhan
 
 type TUserWithoutPassword = Omit<User, 'password'>;
 
@@ -16,7 +20,11 @@ type TRegister = {
   lastName: string;
   email: string;
   password: string;
+<<<<<<< HEAD
+  gender: Gender;
+=======
   gender: EGender;
+>>>>>>> dev-borhan
   address?: string;
   image?: string;
   contactNo: string;

@@ -1,14 +1,12 @@
 import { Router } from 'express';
 import { AuthRoutes } from './modules/auth/route';
-import { RentTypeRoutes } from './modules/rentType/route';
-import { BookingRoutes } from './modules/booking/route';
+import { VehicleRoutes } from './modules/vehicle/route';
 
 const router = Router();
 
 [
   { path: '/auth', route: AuthRoutes },
-  { path: '/rent-types', route: RentTypeRoutes },
-  { path: '/bookings', route: BookingRoutes },
+  { path: '/vehicle', route: VehicleRoutes },
 ].forEach(({ path, route }) => router.use(path, route));
 
 export const routes = router;
