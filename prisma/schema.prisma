@@ -7,27 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+<<<<<<< HEAD
 enum Role {
+=======
+enum ERole {
+>>>>>>> dev-borhan
   CUSTOMER
   DRIVER
   ADMIN
   SUPER_ADMIN
 }
 
+<<<<<<< HEAD
 enum Gender {
+=======
+enum EGender {
+>>>>>>> dev-borhan
   Male
   Female
   Others
 }
 
+<<<<<<< HEAD
+=======
+enum ERentType {
+  Hourly
+  Daily
+  Weekly
+  Monthly
+  Yearly
+}
+
+>>>>>>> dev-borhan
 model User {
   id String @id @default(uuid())
 
   email    String @unique
   password String
+<<<<<<< HEAD
   role     Role   @default(CUSTOMER)
 
   profile Profile?
+=======
+  role     ERole  @default(CUSTOMER)
+
+  profile  Profile?
+  bookings Booking[]
+>>>>>>> dev-borhan
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,7 +66,11 @@ model Profile {
 
   firstName    String
   lastName     String
+<<<<<<< HEAD
   gender       Gender
+=======
+  gender       EGender
+>>>>>>> dev-borhan
   dateOfBirth  DateTime?
   address      String?
   image        String?
@@ -54,4 +84,71 @@ model Profile {
   updatedAt DateTime @updatedAt
 
   @@map("profiles")
+<<<<<<< HEAD
+=======
+}
+
+
+
+model Vehicle {
+  id String @id @default(uuid())
+  name String
+  image String[]
+  color String
+  overview String @db.Text()
+  basePrice Int
+  fuelType String
+  seats Int
+  location String
+  plateNo Int
+  chassisNo Int
+  status String
+  bookings Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("vehicles")
+  }
+
+model RentType {
+  id String @id @default(uuid())
+
+  type    ERentType
+  booking Booking?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("rent_types")
+
+}
+
+model Booking {
+  id String @id @default(uuid())
+
+  pickUpDate      DateTime
+  dropOffDate     DateTime
+  pickUpTime      DateTime
+  dropOffTime     DateTime
+  pickUpLocation  String
+  dropOffLocation String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  promoId String?
+
+  rentTypeId String   @unique
+  rentType   RentType @relation(fields: [rentTypeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bookings")
+
+>>>>>>> dev-borhan
 }

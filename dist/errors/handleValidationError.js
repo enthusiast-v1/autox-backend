@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const handleValidationError = (error) => {
@@ -7,5 +8,16 @@ const handleValidationError = (error) => {
         message: 'Validation Error',
         errorMessages: errors,
     };
+=======
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const handleValidationError = error => {
+  const errors = [{ path: '', message: error.message }];
+  return {
+    statusCode: 400,
+    message: 'Validation Error',
+    errorMessages: errors,
+  };
+>>>>>>> dev-borhan
 };
 exports.default = handleValidationError;
