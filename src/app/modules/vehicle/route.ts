@@ -7,7 +7,7 @@ const route = Router();
 const { ZCreateVehicle } = VehicleValidation;
 const { createVehicle, findAllVehicle } = VehicleController;
 
-route.post('/add', validateRequest(ZCreateVehicle), createVehicle);
+route.post('/create', validateRequest(ZCreateVehicle), createVehicle);
 route.get('/', findAllVehicle);
 
 export const VehicleRoutes = route;
