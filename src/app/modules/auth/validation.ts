@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { Gender } from '@prisma/client';
+import { z } from 'zod';
 
 const ZLogin = z.object({
   body: z.object({

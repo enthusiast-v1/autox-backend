@@ -7,27 +7,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
+
+
+enum ERole {
+
   CUSTOMER
   DRIVER
   ADMIN
   SUPER_ADMIN
 }
 
-enum Gender {
+
+enum EGender {
   Male
   Female
   Others
 }
+
+
 
 model User {
   id String @id @default(uuid())
 
   email    String @unique
   password String
-  role     Role   @default(CUSTOMER)
 
   profile Profile?
+
+  role     ERole  @default(CUSTOMER)
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,7 +48,9 @@ model Profile {
 
   firstName    String
   lastName     String
-  gender       Gender
+
+  gender       EGender
+
   dateOfBirth  DateTime?
   address      String?
   image        String?
@@ -55,3 +65,28 @@ model Profile {
 
   @@map("profiles")
 }
+
+
+
+model Vehicle {
+  id String @id @default(uuid())
+  name String
+  image String[]
+  color String
+  overview String @db.Text()
+  basePrice Int
+  fuelType String
+  seats Int
+  location String
+  plateNo Int
+  chassisNo Int
+  status String
+  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("vehicles")
+  }
+
+

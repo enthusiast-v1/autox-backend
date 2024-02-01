@@ -28,9 +28,8 @@ const root = () => {
 
       if (server) server.close();
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    console.log('Error From Root --> ', error);
+  } catch (err) {
+    console.log('Error From Root --> ', err);
   }
 };
 
