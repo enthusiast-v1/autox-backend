@@ -24,23 +24,97 @@ enum EGender {
   Others
 }
 
+enum EDriverStatus {
+  Available
+  In_A_Trip
+  Accident
+  On_Vacation
+}
 
+enum ERentType {
+  Hourly
+  Daily
+  Weekly
+  Monthly
+  Yearly
+}
+
+enum EFuelType {
+  LPG
+  CNG
+  Petrol
+  Diesel
+  Gasoline
+  Kerosene
+}
+
+enum EVehicleType {
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+}
+
+enum EVehicleBrand {
+  Toyota
+  Hyundai
+  Audi
+  Proton
+  Mitsubishi
+  BMW
+  Suzuki
+  Subaru
+  Nissan
+  Mercedes
+  Mazda
+  Honda
+}
+
+enum EVehicleStatus {
+  Available
+  In_A_Trip
+  Accident
+  Maintenance
+}
 
 model User {
   id String @id @default(uuid())
 
   email    String @unique
   password String
-
-  profile Profile?
-
   role     ERole  @default(CUSTOMER)
 
+  profile Profile?
+  driver   Driver?
+  
+  bookings Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+model Driver {
+  id String @id @default(uuid())
+
+  driverId      String
+  licenseNo     String
+  licenseExpire DateTime
+  nidNo         String
+  status        EDriverStatus @default(Available)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  vehicle Vehicle?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("drivers")
 }
 
 model Profile {
@@ -69,19 +143,28 @@ model Profile {
 
 
 model Vehicle {
-  id String @id @default(uuid())
-  name String
-  image String[]
-  color String
-  overview String @db.Text()
-  basePrice Int
-  fuelType String
-  seats Int
-  location String
-  plateNo Int
-  chassisNo Int
-  status String
-  
+  id                String         @id @default(uuid())
+  vehicleId         String
+  model             String
+  mileage           Float
+  color             String
+  images            String[]
+  overview          String
+  basePrice         Int
+  fuelType          EFuelType
+  passengerCapacity Int
+  location          String
+  plateNo           String
+  chassisNo         String
+  status            EVehicleStatus @default(Available)
+  owner             String?
+  vehicleType       EVehicleType
+  brand             EVehicleBrand
+
+  driverId String @unique
+  driver   Driver @relation(fields: [driverId], references: [id])
+
+  bookings Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -89,4 +172,28 @@ model Vehicle {
   @@map("vehicles")
   }
 
+model Booking {
+  id String @id @default(uuid())
 
+  bookingId       String
+  pickUpDate      DateTime
+  dropOffDate     DateTime
+  pickUpTime      DateTime
+  dropOffTime     DateTime
+  pickUpLocation  String
+  dropOffLocation String
+  rentType        ERentType
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  promoId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bookings")
+}
