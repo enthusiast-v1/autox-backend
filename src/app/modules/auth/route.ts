@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { AuthValidation } from './validation';
 import { AuthController } from './controller';
+import { AuthValidation } from './validation';
 
 const router = Router();
 const { ZLogin, ZRegister } = AuthValidation;

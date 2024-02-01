@@ -3,8 +3,8 @@ import prisma from '../../../constants/prisma';
 import ApiError from '../../../errors/ApiError';
 import { hashPassword, matchPassword } from '../../../helpers/bcrypt';
 import { createToken } from '../../../helpers/jwt';
-import { TLoginResponse, TRegister, TRegisterResponse } from './interface';
 import { AuthConstant } from './constant';
+import { TLoginResponse, TRegister, TRegisterResponse } from './interface';
 
 const { select } = AuthConstant;
 
