@@ -1,3 +1,4 @@
+import { ERentType } from '@prisma/client';
 import { z } from 'zod';
 
 const ZCreateBooking = z.object({
@@ -15,7 +16,9 @@ const ZCreateBooking = z.object({
     userId: z.string({ required_error: 'User id is required!' }),
     vehicleId: z.string({ required_error: 'Vehicle id is required!' }),
     promoId: z.string().optional(),
-    rentTypeId: z.string({ required_error: 'Rent type id is required!' }),
+    rentType: z.enum([...Object.keys(ERentType)] as [string, ...string[]], {
+      required_error: 'Rent type is required!',
+    }),
   }),
 });
 

@@ -1,5 +1,10 @@
 import { z } from 'zod';
-import { EFuelType, EVehicleStatus, EVehicleType } from '@prisma/client';
+import {
+  EFuelType,
+  EVehicleBrand,
+  EVehicleStatus,
+  EVehicleType,
+} from '@prisma/client';
 
 const ZCreateVehicle = z.object({
   body: z.object({
@@ -27,8 +32,10 @@ const ZCreateVehicle = z.object({
       [...Object.keys(EVehicleType)] as [string, ...string[]],
       { required_error: 'Vehicle type is required!' },
     ),
+    brand: z.enum([...Object.keys(EVehicleBrand)] as [string, ...string[]], {
+      required_error: 'Brand is required!',
+    }),
     driverId: z.string({ required_error: 'Driver id is required!' }),
-    brandId: z.string({ required_error: 'Brand id is required!' }),
   }),
 });
 

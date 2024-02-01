@@ -27,7 +27,13 @@ const createDriver = async ({
     userId = user.id;
 
     const driver = await tx.driver.create({
-      data: { driverId, licenseNo, licenseExpire, nidNo, userId },
+      data: {
+        driverId,
+        licenseNo,
+        licenseExpire,
+        nidNo,
+        userId,
+      },
     });
 
     const profile = await tx.profile.create({
