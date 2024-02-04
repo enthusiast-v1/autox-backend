@@ -1,4 +1,4 @@
-import { EGender, User } from '@prisma/client';
+import { User } from '@prisma/client';
 
 type TUserWithoutPassword = Omit<User, 'password'>;
 
@@ -11,15 +11,15 @@ type TRegisterResponse = {
   user: TUserWithoutPassword;
 } & TLoginResponse;
 
+// name,  email, image, address,  contactNo, password.
+
 type TRegister = {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
-  password: string;
-  gender: EGender;
-  address?: string;
   image?: string;
+  address?: string;
   contactNo: string;
+  password: string;
 };
 
 export { TLoginResponse, TRegister, TRegisterResponse, TUserWithoutPassword };

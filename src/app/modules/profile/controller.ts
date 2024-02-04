@@ -15,31 +15,27 @@ const updateProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getProfiles = async (req: Request, res: Response) => {
-  try {
-    const result = await ProfileService.getProfiles();
-    res.send({
-      succes: true,
-      message: 'Profiles get successfully!',
-      data: result,
-    });
-  } catch (err) {
-    res.send(err);
-  }
-};
+const getProfiles = catchAsync(async (req: Request, res: Response) => {
+  const data = await ProfileService.getProfiles();
 
-const getSingleProfile = async (req: Request, res: Response) => {
-  try {
-    const result = await ProfileService.getSingleProfile(req.params.id);
-    res.send({
-      succes: true,
-      message: 'Profile fetched successfully!',
-      data: result,
-    });
-  } catch (err) {
-    res.send(err);
-  }
-};
+  sendResponse<Profile[]>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Profiles retrieved successfully!',
+    data,
+  });
+});
+
+const getProfile = catchAsync(async (req: Request, res: Response) => {
+  const data = await ProfileService.getProfile(req.params.id);
+
+  sendResponse<Profile>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Profile retrieved successfully!',
+    data,
+  });
+});
 
 const deleteProfile = catchAsync(async (req: Request, res: Response) => {
   const data = await ProfileService.deleteProfile(req.params.id);
@@ -55,6 +51,6 @@ const deleteProfile = catchAsync(async (req: Request, res: Response) => {
 export const ProfileController = {
   updateProfile,
   getProfiles,
-  getSingleProfile,
+  getProfile,
   deleteProfile,
 };

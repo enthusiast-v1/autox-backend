@@ -52,14 +52,13 @@ CREATE TABLE "drivers" (
 -- CreateTable
 CREATE TABLE "profiles" (
     "id" TEXT NOT NULL,
-    "firstName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
-    "gender" "EGender" NOT NULL,
+    "name" TEXT NOT NULL,
     "dateOfBirth" TIMESTAMP(3),
     "address" TEXT,
     "image" TEXT,
     "contactNo" TEXT NOT NULL,
     "emergContact" TEXT,
+    "gender" "EGender",
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

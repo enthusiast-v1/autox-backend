@@ -1,11 +1,9 @@
-import { EGender } from '@prisma/client';
-
 import { z } from 'zod';
+import { EGender } from '@prisma/client';
 
 const ZProfileUpdate = z.object({
   body: z.object({
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
+    name: z.string().optional(),
     gender: z
       .enum([...Object.keys(EGender)] as [string, ...string[]])
       .optional(),

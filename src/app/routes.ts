@@ -10,8 +10,8 @@ const router = Router();
 
 [
   { path: '/auth', route: AuthRoutes },
-  { path: '/profile', route: ProfileRoutes },
-  { path: '/user', route: UserRoutes },
+  { path: '/profiles', route: ProfileRoutes },
+  { path: '/users', route: UserRoutes },
   { path: '/bookings', route: BookingRoutes },
   { path: '/vehicles', route: VehicleRoutes },
   { path: '/drivers', route: DriverRoutes },
