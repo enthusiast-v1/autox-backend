@@ -1,8 +1,9 @@
+import { Driver } from '@prisma/client';
 import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
-import { DriverService } from './service';
 import sendResponse from '../../../shared/sendResponse';
 import { TCreateDriverResponse } from './interface';
+import { DriverService } from './service';
 
 const createDriver = catchAsync(async (req: Request, res: Response) => {
   const data = await DriverService.createDriver(req.body);
@@ -15,4 +16,15 @@ const createDriver = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const DriverController = { createDriver };
+const getDrivers = catchAsync(async (req: Request, res: Response) => {
+  const data = await DriverService.getDrivers();
+
+  sendResponse<Driver[]>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Drivers retrieve successfully!',
+    data,
+  });
+});
+
+export const DriverController = { createDriver, getDrivers };

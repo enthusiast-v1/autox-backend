@@ -8,9 +8,9 @@ const getUsers = async () => {
     //     email: true,
     //     name: true
     // }
-    // include: {
-    //   user: true,
-    // },
+    include: {
+      profile: true,
+    },
   });
   return result;
 };
@@ -36,12 +36,13 @@ const deleteUser = async (id: string) => {
       profile: true,
     },
   });
-
-  const deletedProfile = await prisma.profile.delete({
-    where: { id: usr?.profile?.id },
-  });
-
-  console.log(deletedProfile);
+  console.log(usr?.profile?.id);
+  if (usr?.profile?.id) {
+    const deletedProfile = await prisma.profile.delete({
+      where: { id: usr?.profile?.id },
+    });
+    console.log(deletedProfile);
+  }
 
   const result = await prisma.user.delete({
     where: {
