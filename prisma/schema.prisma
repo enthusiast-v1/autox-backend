@@ -7,16 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 enum ERole {
-
   CUSTOMER
   DRIVER
   ADMIN
   SUPER_ADMIN
 }
-
 
 enum EGender {
   Male
@@ -87,8 +83,8 @@ model User {
   role     ERole  @default(CUSTOMER)
 
   profile Profile?
-  driver   Driver?
-  
+  driver  Driver?
+
   bookings Booking[]
 
   createdAt DateTime @default(now())
@@ -120,16 +116,13 @@ model Driver {
 model Profile {
   id String @id @default(uuid())
 
-  firstName    String
-  lastName     String
-
-  gender       EGender
-
+  name         String
   dateOfBirth  DateTime?
   address      String?
   image        String?
   contactNo    String
   emergContact String?
+  gender       EGender?
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
@@ -139,8 +132,6 @@ model Profile {
 
   @@map("profiles")
 }
-
-
 
 model Vehicle {
   id                String         @id @default(uuid())
@@ -170,7 +161,7 @@ model Vehicle {
   updatedAt DateTime @updatedAt
 
   @@map("vehicles")
-  }
+}
 
 model Booking {
   id String @id @default(uuid())

@@ -8,7 +8,12 @@ import { routes } from './app/routes';
 const app: Application = express();
 
 // Middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: ['https://autox-bay.vercel.app', 'http://localhost:3000'],
+    credentials: true,
+  }),
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

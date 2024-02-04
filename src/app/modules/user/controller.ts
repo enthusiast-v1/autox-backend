@@ -15,8 +15,8 @@ const getUsers = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getSingleUser = catchAsync(async (req: Request, res: Response) => {
-  const data = await ProfileService.getSingleUser(req.params.id);
+const getUser = catchAsync(async (req: Request, res: Response) => {
+  const data = await ProfileService.getUser(req.params.id);
 
   sendResponse<User>(res, {
     statusCode: 200,
@@ -39,6 +39,6 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
 
 export const ProfileController = {
   getUsers,
-  getSingleUser,
+  getUser,
   deleteUser,
 };

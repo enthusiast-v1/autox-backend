@@ -1,59 +1,41 @@
-import { PrismaClient, Profile } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { Profile } from '@prisma/client';
+import prisma from '../../../constants/prisma';
 
 const updateProfile = async (data: Profile): Promise<Profile> => {
   const isExist = await prisma.profile.findUnique({
-    where: {
-      userId: data.userId,
-    },
+    where: { userId: data.userId },
   });
 
   if (isExist) {
     const result = await prisma.profile.update({
-      where: {
-        userId: data.userId,
-      },
+      where: { userId: data.userId },
       data: data,
     });
     return result;
   }
 
-  const result = await prisma.profile.create({
-    data,
-  });
+  const result = await prisma.profile.create({ data });
+
   return result;
 };
 
 const getProfiles = async () => {
-  const result = await prisma.profile.findMany({
-    // select: {
-    //     email: true,
-    //     name: true,
-    // },
-    // include: {
-    //   user: true,
-    // },
-  });
+  const result = await prisma.profile.findMany({});
+
   return result;
 };
 
-const getSingleProfile = async (id: string) => {
+const getProfile = async (userId: string) => {
   const result = await prisma.profile.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      user: true,
-    },
+    where: { userId },
+    include: { user: true },
   });
+
   return result;
 };
 
 const deleteProfile = async (id: string) => {
-  const result = await prisma.profile.delete({
-    where: { id },
-  });
+  const result = await prisma.profile.delete({ where: { id } });
 
   return result;
 };
@@ -61,6 +43,6 @@ const deleteProfile = async (id: string) => {
 export const ProfileService = {
   updateProfile,
   getProfiles,
-  getSingleProfile,
+  getProfile,
   deleteProfile,
 };
