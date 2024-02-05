@@ -7,8 +7,9 @@ import validateRequest from '../../middlewares/validateRequest';
 
 const router = Router();
 const { ADMIN, SUPER_ADMIN } = ERole;
-const { ZCreateVehicle } = VehicleValidation;
-const { createVehicle, getVehicle, getVehicles } = VehicleController;
+const { ZCreateVehicle, ZUpdateVehicle } = VehicleValidation;
+const { createVehicle, getVehicle, getVehicles, updateVahicle } =
+  VehicleController;
 
 router
   .post(
@@ -16,6 +17,12 @@ router
     auth(ADMIN, SUPER_ADMIN),
     validateRequest(ZCreateVehicle),
     createVehicle,
+  )
+  .patch(
+    '/:id',
+    auth(ADMIN, SUPER_ADMIN),
+    validateRequest(ZUpdateVehicle),
+    updateVahicle,
   )
   .get('/:id', getVehicle)
   .get('/', getVehicles);

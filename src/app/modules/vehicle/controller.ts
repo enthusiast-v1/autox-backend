@@ -44,4 +44,20 @@ const getVehicles = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const VehicleController = { createVehicle, getVehicle, getVehicles };
+const updateVahicle = catchAsync(async (req: Request, res: Response) => {
+  const data = await VehicleService.updateVahicle(req.params.id, req.body);
+
+  sendResponse<Vehicle>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Vehicle updated successfully',
+    data,
+  });
+});
+
+export const VehicleController = {
+  createVehicle,
+  getVehicle,
+  getVehicles,
+  updateVahicle,
+};

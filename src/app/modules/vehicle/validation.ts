@@ -44,4 +44,36 @@ const ZCreateVehicle = z.object({
   }),
 });
 
-export const VehicleValidation = { ZCreateVehicle };
+const ZUpdateVehicle = z.object({
+  body: z.object({
+    model: z.string().optional(),
+    mileage: z.number().optional(),
+    color: z.string().optional(),
+    images: z.array(z.string()).optional(),
+    overview: z.string().optional(),
+    basePrice: z.number().optional(),
+    fuelType: z
+      .enum([...Object.keys(EFuelType)] as [string, ...string[]])
+      .optional(),
+    passengerCapacity: z.number().optional(),
+    location: z.string().optional(),
+    plateNo: z.string().optional(),
+    chassisNo: z.string().optional(),
+    status: z
+      .enum([...Object.keys(EVehicleStatus)] as [string, ...string[]])
+      .optional(),
+    owner: z.string().optional(),
+    vehicleType: z
+      .enum([...Object.keys(EVehicleType)] as [string, ...string[]])
+      .optional(),
+    brand: z
+      .enum([...Object.keys(EVehicleBrand)] as [string, ...string[]])
+      .optional(),
+    year: z.string().optional(),
+    registrationNumber: z.string().optional(),
+    rentalRate: z.number().optional(),
+    driverId: z.string().optional(),
+  }),
+});
+
+export const VehicleValidation = { ZCreateVehicle, ZUpdateVehicle };

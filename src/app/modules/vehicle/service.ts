@@ -84,4 +84,22 @@ const getVehicles = async (
   return { meta: { total, page, limit }, data };
 };
 
-export const VehicleService = { createVehicle, getVehicle, getVehicles };
+const updateVahicle = async (
+  id: string,
+  payload: Partial<Vehicle>,
+): Promise<Vehicle> => {
+  const vehicle = await prisma.vehicle.update({
+    where: { id },
+    data: payload,
+    include: { driver: true },
+  });
+
+  return vehicle;
+};
+
+export const VehicleService = {
+  createVehicle,
+  getVehicle,
+  getVehicles,
+  updateVahicle,
+};
