@@ -1,10 +1,10 @@
-import { z } from 'zod';
 import {
   EFuelType,
   EVehicleBrand,
   EVehicleStatus,
   EVehicleType,
 } from '@prisma/client';
+import { z } from 'zod';
 
 const ZCreateVehicle = z.object({
   body: z.object({

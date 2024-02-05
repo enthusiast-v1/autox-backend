@@ -1,8 +1,15 @@
 import prisma from '../../../constants/prisma';
 
 const getUsers = async () => {
-  const result = await prisma.user.findMany();
-
+  const result = await prisma.user.findMany({
+    // select: {
+    //     email: true,
+    //     name: true
+    // }
+    // include: {
+    //   user: true,
+    // },
+  });
   return result;
 };
 
@@ -20,12 +27,13 @@ const deleteUser = async (id: string) => {
     where: { id },
     include: { profile: true },
   });
-
-  const deletedProfile = await prisma.profile.delete({
-    where: { id: usr?.profile?.id },
-  });
-
-  console.log(deletedProfile);
+  console.log(usr?.profile?.id);
+  if (usr?.profile?.id) {
+    const deletedProfile = await prisma.profile.delete({
+      where: { id: usr?.profile?.id },
+    });
+    console.log(deletedProfile);
+  }
 
   const result = await prisma.user.delete({ where: { id } });
 

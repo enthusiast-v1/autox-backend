@@ -21,7 +21,7 @@ const getUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse<User>(res, {
     statusCode: 200,
     success: true,
-    message: 'User Get successfully!',
+    message: 'User Gettt successfully!',
     data,
   });
 });

@@ -1,8 +1,8 @@
-import { DriverUtils } from './utils';
 import { ERole } from '@prisma/client';
-import { TCreateDriver, TCreateDriverResponse } from './interface';
 import prisma from '../../../constants/prisma';
 import ApiError from '../../../errors/ApiError';
+import { TCreateDriver, TCreateDriverResponse } from './interface';
+import { DriverUtils } from './utils';
 
 const createDriver = async ({
   email,
@@ -47,5 +47,9 @@ const createDriver = async ({
 
   return result;
 };
+const getDrivers = async () => {
+  const result = await prisma.driver.findMany({});
+  return result;
+};
 
-export const DriverService = { createDriver };
+export const DriverService = { createDriver, getDrivers };
