@@ -107,6 +107,8 @@ model Driver {
 
   vehicle Vehicle?
   rents   Rent[]
+  bookings    Booking[] @relation("DriverBookings")
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
