@@ -35,6 +35,11 @@ const ZCreateVehicle = z.object({
     brand: z.enum([...Object.keys(EVehicleBrand)] as [string, ...string[]], {
       required_error: 'Brand is required!',
     }),
+    year: z.string({ required_error: 'Year is required!' }),
+    registrationNumber: z.string({
+      required_error: 'Registration number is required!',
+    }),
+    rentalRate: z.number({ required_error: 'Rental rate is required!' }),
     driverId: z.string({ required_error: 'Driver id is required!' }),
   }),
 });

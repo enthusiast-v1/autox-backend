@@ -8,8 +8,8 @@ const ZCreateDriver = z.object({
     password: z.string({ required_error: 'Password is required!' }),
 
     // profile info
-    firstName: z.string({ required_error: 'First name is required!' }),
-    lastName: z.string({ required_error: 'Last name is required!' }),
+    name: z.string({ required_error: 'Name is required!' }),
+
     gender: z.enum([...Object.keys(EGender)] as [string, ...string[]], {
       required_error: 'Gender is required!',
     }),
