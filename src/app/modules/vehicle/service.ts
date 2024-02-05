@@ -32,12 +32,11 @@ const getVehicle = async (id: string): Promise<Vehicle> => {
 };
 
 const getVehicles = async (
-  filters: TVehicleFilterRequest,
+  { searchTerm, ...filterData }: TVehicleFilterRequest,
   options: IPaginationOptions,
 ): Promise<IGenericResponse<Vehicle[]>> => {
   const pipeline = [];
   const { limit, page, skip } = calculatePagination(options);
-  const { searchTerm, ...filterData } = filters;
 
   if (searchTerm) {
     pipeline.push({

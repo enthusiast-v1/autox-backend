@@ -3,6 +3,9 @@ import catchAsync from '../../../shared/catchAsync';
 import { BookingService } from './service';
 import sendResponse from '../../../shared/sendResponse';
 import { Booking } from '@prisma/client';
+import pick from '../../../shared/pick';
+import { bookingFilterableFields } from './constants';
+import paginationFields from '../../../constants/pagination';
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
   const data = await BookingService.createBooking(req.body);
@@ -26,4 +29,19 @@ const getBooking = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const BookingController = { createBooking, getBooking };
+const getBookings = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, bookingFilterableFields);
+  const options = pick(req.query, paginationFields);
+
+  const { meta, data } = await BookingService.getBookings(filters, options);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Bookings retrieved successfully',
+    meta,
+    data,
+  });
+});
+
+export const BookingController = { createBooking, getBooking, getBookings };
