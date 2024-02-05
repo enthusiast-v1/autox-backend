@@ -8,13 +8,15 @@ import validateRequest from '../../middlewares/validateRequest';
 const router = Router();
 const { ADMIN, SUPER_ADMIN } = ERole;
 const { ZCreateVehicle } = VehicleValidation;
-const { createVehicle } = VehicleController;
+const { createVehicle, getVehicle } = VehicleController;
 
-router.post(
-  '/',
-  auth(ADMIN, SUPER_ADMIN),
-  validateRequest(ZCreateVehicle),
-  createVehicle,
-);
+router
+  .post(
+    '/',
+    auth(ADMIN, SUPER_ADMIN),
+    validateRequest(ZCreateVehicle),
+    createVehicle,
+  )
+  .get('/:id', getVehicle);
 
 export const VehicleRoutes = router;

@@ -15,4 +15,15 @@ const createVehicle = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const VehicleController = { createVehicle };
+const getVehicle = catchAsync(async (req: Request, res: Response) => {
+  const data = await VehicleService.getVehicle(req.params.id);
+
+  sendResponse<Vehicle>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Vehicle retrieved successfully',
+    data,
+  });
+});
+
+export const VehicleController = { createVehicle, getVehicle };

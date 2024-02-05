@@ -13,4 +13,12 @@ const createVehicle = async (data: Vehicle): Promise<Vehicle> => {
   return vehicle;
 };
 
-export const VehicleService = { createVehicle };
+const getVehicle = async (id: string): Promise<Vehicle> => {
+  const vehicle = await prisma.vehicle.findUnique({ where: { id } });
+
+  if (!vehicle) throw new ApiError(404, 'Vehicle not found!');
+
+  return vehicle;
+};
+
+export const VehicleService = { createVehicle, getVehicle };
