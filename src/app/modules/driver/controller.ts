@@ -26,5 +26,43 @@ const getDrivers = catchAsync(async (req: Request, res: Response) => {
     data,
   });
 });
+const getDriver = catchAsync(async (req: Request, res: Response) => {
+  const data = await DriverService.getDriver(req.params.id);
 
-export const DriverController = { createDriver, getDrivers };
+  sendResponse<Driver>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Driver retrieve successfully!',
+    data,
+  });
+});
+
+// const updateDriver = catchAsync(async (req: Request, res: Response) => {
+//   const data = await DriverService.updateDriver(req.body);
+
+//   sendResponse<Driver>(res, {
+//     statusCode: 200,
+//     success: true,
+//     message: 'Driver updated successfully!',
+//     data,
+//   });
+// });
+
+const deleteDriver = catchAsync(async (req: Request, res: Response) => {
+  const data = await DriverService.deleteDriver(req.params.id);
+
+  sendResponse<Driver>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Driver Deleted successfully!',
+    data,
+  });
+});
+
+export const DriverController = {
+  createDriver,
+  getDrivers,
+  getDriver,
+  // updateDriver,
+  deleteDriver,
+};

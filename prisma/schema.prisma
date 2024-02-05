@@ -106,6 +106,8 @@ model Driver {
   user   User   @relation(fields: [userId], references: [id])
 
   vehicle Vehicle?
+  
+  bookings    Booking[] @relation("DriverBookings")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -182,6 +184,9 @@ model Booking {
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
 
   promoId String?
+
+  driverId    String
+  driver Driver @relation("DriverBookings", fields: [driverId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
