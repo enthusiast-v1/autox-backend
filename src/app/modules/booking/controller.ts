@@ -44,4 +44,20 @@ const getBookings = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const BookingController = { createBooking, getBooking, getBookings };
+const updateBooking = catchAsync(async (req: Request, res: Response) => {
+  const data = await BookingService.updateBooking(req.params.id, req.body);
+
+  sendResponse<Booking>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Booking updated successfully',
+    data,
+  });
+});
+
+export const BookingController = {
+  createBooking,
+  getBooking,
+  getBookings,
+  updateBooking,
+};

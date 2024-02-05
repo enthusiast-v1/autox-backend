@@ -7,11 +7,18 @@ import { ERole } from '@prisma/client';
 
 const router = Router();
 const { CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN } = ERole;
-const { ZCreateBooking } = BookingValidation;
-const { createBooking, getBooking, getBookings } = BookingController;
+const { ZCreateBooking, ZUpdateBooking } = BookingValidation;
+const { createBooking, getBooking, getBookings, updateBooking } =
+  BookingController;
 
 router
   .post('/', auth(CUSTOMER), validateRequest(ZCreateBooking), createBooking)
+  .patch(
+    '/:id',
+    auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN),
+    validateRequest(ZUpdateBooking),
+    updateBooking,
+  )
   .get('/:id', auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN), getBooking)
   .get('/', auth(ADMIN, SUPER_ADMIN), getBookings);
 

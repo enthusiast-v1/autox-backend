@@ -32,4 +32,25 @@ const ZCreateBooking = z.object({
   }),
 });
 
-export const BookingValidation = { ZCreateBooking };
+const ZUpdateBooking = z.object({
+  body: z.object({
+    pickUpDateTime: z.string().optional(),
+    returnDateTime: z.string().optional(),
+    pickUpLocation: z.string().optional(),
+    dropOffLocation: z.string().optional(),
+    rentType: z
+      .enum([...Object.keys(ERentType)] as [string, ...string[]])
+      .optional(),
+    bookingStatus: z
+      .enum([...Object.keys(EBookingStatus)] as [string, ...string[]])
+      .optional(),
+    paymentStatus: z
+      .enum([...Object.keys(EPaymentStatus)] as [string, ...string[]])
+      .optional(),
+    userId: z.string().optional(),
+    vehicleId: z.string().optional(),
+    promoId: z.string().optional(),
+  }),
+});
+
+export const BookingValidation = { ZCreateBooking, ZUpdateBooking };
