@@ -1,24 +1,34 @@
-import { ERentType } from '@prisma/client';
 import { z } from 'zod';
+import { EBookingStatus, EPaymentStatus, ERentType } from '@prisma/client';
 
 const ZCreateBooking = z.object({
   body: z.object({
-    pickUpDate: z.string({ required_error: 'Pick up date is required!' }),
-    dropOffDate: z.string({ required_error: 'Drop off date is required!' }),
-    pickUpTime: z.string({ required_error: 'Pick up time is required!' }),
-    dropOffTime: z.string({ required_error: 'Drop off time is required!' }),
+    pickUpDateTime: z.string({
+      required_error: 'Pick up date and time is required!',
+    }),
+    returnDateTime: z.string({
+      required_error: 'Return date and time is required!',
+    }),
     pickUpLocation: z.string({
       required_error: 'Pick up location is required!',
     }),
     dropOffLocation: z.string({
       required_error: 'Drop off location is required!',
     }),
-    userId: z.string({ required_error: 'User id is required!' }),
-    vehicleId: z.string({ required_error: 'Vehicle id is required!' }),
-    promoId: z.string().optional(),
     rentType: z.enum([...Object.keys(ERentType)] as [string, ...string[]], {
       required_error: 'Rent type is required!',
     }),
+    bookingStatus: z
+      .enum([...Object.keys(EBookingStatus)] as [string, ...string[]])
+      .default(EBookingStatus.Pending)
+      .optional(),
+    paymentStatus: z
+      .enum([...Object.keys(EPaymentStatus)] as [string, ...string[]])
+      .default(EPaymentStatus.Unpaid)
+      .optional(),
+    userId: z.string({ required_error: 'User id is required!' }),
+    vehicleId: z.string({ required_error: 'Vehicle id is required!' }),
+    promoId: z.string().optional(),
   }),
 });
 
