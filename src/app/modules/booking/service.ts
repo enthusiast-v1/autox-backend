@@ -24,4 +24,15 @@ const createBooking = async (data: Booking): Promise<Booking> => {
   return booking;
 };
 
-export const BookingService = { createBooking };
+const getBooking = async (id: string): Promise<Booking> => {
+  const booking = await prisma.booking.findUnique({
+    where: { id },
+    include: { user: true },
+  });
+
+  if (!booking) throw new ApiError(404, 'Booking not found!');
+
+  return booking;
+};
+
+export const BookingService = { createBooking, getBooking };

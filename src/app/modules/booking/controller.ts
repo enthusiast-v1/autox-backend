@@ -8,11 +8,22 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
   const data = await BookingService.createBooking(req.body);
 
   sendResponse<Booking>(res, {
-    statusCode: 200,
+    statusCode: 201,
     success: true,
     message: 'Booking created successfully',
     data,
   });
 });
 
-export const BookingController = { createBooking };
+const getBooking = catchAsync(async (req: Request, res: Response) => {
+  const data = await BookingService.getBooking(req.params.id);
+
+  sendResponse<Booking>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Booking retrieved successfully',
+    data,
+  });
+});
+
+export const BookingController = { createBooking, getBooking };
