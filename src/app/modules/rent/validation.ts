@@ -4,9 +4,9 @@ const ZCreateRent = z.object({
   body: z.object({
     downPayment: z.number().optional(),
     discount: z.number().optional(),
-    startTime: z.date({ required_error: 'startTime required' }),
-    endTime: z.date({ required_error: 'endTime required' }),
-    overTime: z.date().optional(),
+    startTime: z.string({ required_error: 'startTime required' }),
+    endTime: z.string({ required_error: 'endTime required' }),
+    overTime: z.string().optional(),
     damageCompensation: z.number().optional(),
     refund: z.number().optional(),
     totalCost: z.number({ required_error: 'total cost required' }),

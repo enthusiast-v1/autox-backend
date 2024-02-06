@@ -201,9 +201,9 @@ model Rent {
 
   downPayment        Int?
   discount           Int?
-  startTime          DateTime
-  endTime            DateTime
-  overTime           DateTime?
+  startTime          DateTime  @db.Date
+  endTime            DateTime  @db.Date
+  overTime           DateTime? @db.Date
   damageCompensation Int?
   refund             Int?
   totalCost          Int
