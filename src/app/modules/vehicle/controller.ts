@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
-import catchAsync from '../../../shared/catchAsync';
-import { VehicleService } from './service';
-import sendResponse from '../../../shared/sendResponse';
 import { Vehicle } from '@prisma/client';
-import pick from '../../../shared/pick';
-import { vehicleFilterableFields } from './constants';
+import { Request, Response } from 'express';
 import paginationFields from '../../../constants/pagination';
+import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
+import sendResponse from '../../../shared/sendResponse';
+import { vehicleFilterableFields } from './constants';
+import { VehicleService } from './service';
 
 const createVehicle = catchAsync(async (req: Request, res: Response) => {
   const data = await VehicleService.createVehicle(req.body);
@@ -29,6 +29,18 @@ const getVehicle = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const availableVehicles = catchAsync(async (req: Request, res: Response) => {
+  const { pickUpDateTime } = req.query;
+  console.log(req.query, 'now');
+
+  const data = await VehicleService.availableVehicles(pickUpDateTime as string);
+  sendResponse<Vehicle[]>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'available Vehicles retrieve successfully!',
+    data,
+  });
+});
 const getVehicles = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, vehicleFilterableFields);
   const options = pick(req.query, paginationFields);
@@ -44,8 +56,8 @@ const getVehicles = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const updateVahicle = catchAsync(async (req: Request, res: Response) => {
-  const data = await VehicleService.updateVahicle(req.params.id, req.body);
+const updateVehicle = catchAsync(async (req: Request, res: Response) => {
+  const data = await VehicleService.updateVehicle(req.params.id, req.body);
 
   sendResponse<Vehicle>(res, {
     statusCode: 200,
@@ -59,5 +71,6 @@ export const VehicleController = {
   createVehicle,
   getVehicle,
   getVehicles,
-  updateVahicle,
+  updateVehicle,
+  availableVehicles,
 };

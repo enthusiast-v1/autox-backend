@@ -2,16 +2,16 @@
 import { Prisma, Vehicle } from '@prisma/client';
 import prisma from '../../../constants/prisma';
 import ApiError from '../../../errors/ApiError';
-import { VehicleUtils } from './utils';
-import { TVehicleFilterRequest } from './interface';
-import IPaginationOptions from '../../../interfaces/pagination';
-import { IGenericResponse } from '../../../interfaces/common';
 import { calculatePagination } from '../../../helpers/pagination';
+import { IGenericResponse } from '../../../interfaces/common';
+import IPaginationOptions from '../../../interfaces/pagination';
 import {
   vehicleRelationalFields,
   vehicleRelationalFieldsMapper,
   vehicleSearchableFields,
 } from './constants';
+import { TVehicleFilterRequest } from './interface';
+import { VehicleUtils } from './utils';
 
 const createVehicle = async (data: Vehicle): Promise<Vehicle> => {
   data.vehicleId = await VehicleUtils.generateVehicleId(data.vehicleType);
@@ -83,7 +83,34 @@ const getVehicles = async (
   return { meta: { total, page, limit }, data };
 };
 
-const updateVahicle = async (
+const availableVehicles = async (
+  pickUpDateTime: string,
+): Promise<Vehicle[]> => {
+  // Query all booked drivers for the provided date
+  const bookedVehicleIds = (
+    await prisma.booking.findMany({
+      where: {
+        pickUpDateTime,
+      },
+      select: {
+        vehicleId: true,
+      },
+    })
+  ).map(booking => booking.vehicleId);
+
+  // Query available drivers by excluding booked drivers
+  const availableVehicale = await prisma.vehicle.findMany({
+    where: {
+      id: {
+        notIn: bookedVehicleIds,
+      },
+    },
+  });
+
+  return availableVehicale;
+};
+
+const updateVehicle = async (
   id: string,
   payload: Partial<Vehicle>,
 ): Promise<Vehicle> => {
@@ -100,5 +127,6 @@ export const VehicleService = {
   createVehicle,
   getVehicle,
   getVehicles,
-  updateVahicle,
+  updateVehicle,
+  availableVehicles,
 };

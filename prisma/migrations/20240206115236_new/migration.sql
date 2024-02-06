@@ -5,7 +5,7 @@ CREATE TYPE "ERole" AS ENUM ('CUSTOMER', 'DRIVER', 'ADMIN', 'SUPER_ADMIN');
 CREATE TYPE "EGender" AS ENUM ('Male', 'Female', 'Others');
 
 -- CreateEnum
-CREATE TYPE "EDriverStatus" AS ENUM ('Available', 'In_A_Trip', 'Accident', 'On_Vacation');
+CREATE TYPE "EDriverStatus" AS ENUM ('Available', 'Unavailable', 'In_A_Trip', 'Accident', 'On_Vacation');
 
 -- CreateEnum
 CREATE TYPE "ERentType" AS ENUM ('Daily', 'Weekly', 'Monthly');
@@ -115,10 +115,30 @@ CREATE TABLE "bookings" (
     "userId" TEXT NOT NULL,
     "vehicleId" TEXT NOT NULL,
     "promoId" TEXT,
+    "driverId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "bookings_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "rents" (
+    "id" TEXT NOT NULL,
+    "downPayment" INTEGER,
+    "discount" INTEGER,
+    "startTime" DATE NOT NULL,
+    "endTime" DATE NOT NULL,
+    "overTime" DATE,
+    "damageCompensation" INTEGER,
+    "refund" INTEGER,
+    "totalCost" INTEGER NOT NULL,
+    "bookingId" TEXT NOT NULL,
+    "driverId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "rents_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -132,6 +152,9 @@ CREATE UNIQUE INDEX "profiles_userId_key" ON "profiles"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "vehicles_driverId_key" ON "vehicles"("driverId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "rents_bookingId_key" ON "rents"("bookingId");
 
 -- AddForeignKey
 ALTER TABLE "drivers" ADD CONSTRAINT "drivers_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -147,3 +170,12 @@ ALTER TABLE "bookings" ADD CONSTRAINT "bookings_userId_fkey" FOREIGN KEY ("userI
 
 -- AddForeignKey
 ALTER TABLE "bookings" ADD CONSTRAINT "bookings_vehicleId_fkey" FOREIGN KEY ("vehicleId") REFERENCES "vehicles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "bookings" ADD CONSTRAINT "bookings_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "drivers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "rents" ADD CONSTRAINT "rents_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "bookings"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "rents" ADD CONSTRAINT "rents_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "drivers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

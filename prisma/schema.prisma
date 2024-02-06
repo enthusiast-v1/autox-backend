@@ -110,7 +110,7 @@ model Driver {
 
   driverId      String
   licenseNo     String
-  licenseExpire DateTime   
+  licenseExpire DateTime
   nidNo         String
   status        EDriverStatus @default(Available)
 
@@ -120,7 +120,6 @@ model Driver {
   vehicle Vehicle?
   rents   Rent[]
   bookings    Booking[] @relation("DriverBookings")
-
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -199,11 +198,12 @@ model Booking {
   vehicleId String
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
 
-  rent    Rent?
   promoId String?
+  rent    Rent?
 
   driverId    String
   driver Driver @relation("DriverBookings", fields: [driverId], references: [id])
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
