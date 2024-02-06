@@ -16,6 +16,17 @@ const createDriver = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const availableDrivers = catchAsync(async (req: Request, res: Response) => {
+  const { date } = req.query; // Assuming the date is passed as a query parameter
+
+  const data = await DriverService.availableDrivers(date as string);
+  sendResponse<Driver[]>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Available Drivers retrieve successfully!',
+    data,
+  });
+});
 const getDrivers = catchAsync(async (req: Request, res: Response) => {
   const data = await DriverService.getDrivers();
 
@@ -37,16 +48,16 @@ const getDriver = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const updateDriver = catchAsync(async (req: Request, res: Response) => {
-//   const data = await DriverService.updateDriver(req.body);
+const updateDriver = catchAsync(async (req: Request, res: Response) => {
+  const data = await DriverService.updateDriver(req.params.id, req.body);
 
-//   sendResponse<Driver>(res, {
-//     statusCode: 200,
-//     success: true,
-//     message: 'Driver updated successfully!',
-//     data,
-//   });
-// });
+  sendResponse<Driver>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Driver updated successfully!',
+    data,
+  });
+});
 
 const deleteDriver = catchAsync(async (req: Request, res: Response) => {
   const data = await DriverService.deleteDriver(req.params.id);
@@ -61,8 +72,9 @@ const deleteDriver = catchAsync(async (req: Request, res: Response) => {
 
 export const DriverController = {
   createDriver,
+  availableDrivers,
   getDrivers,
   getDriver,
-  // updateDriver,
+  updateDriver,
   deleteDriver,
 };

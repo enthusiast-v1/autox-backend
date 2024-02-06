@@ -47,6 +47,32 @@ const createDriver = async ({
 
   return result;
 };
+
+const availableDrivers = async (date: string): Promise<Driver[]> => {
+  // Query all booked drivers for the provided date
+  const bookedDriverIds = (
+    await prisma.booking.findMany({
+      where: {
+        pickUpDate: date,
+      },
+      select: {
+        driverId: true,
+      },
+    })
+  ).map(booking => booking.driverId);
+
+  // Query available drivers by excluding booked drivers
+  const availableDrivers = await prisma.driver.findMany({
+    where: {
+      id: {
+        notIn: bookedDriverIds,
+      },
+    },
+  });
+
+  return availableDrivers;
+};
+
 const getDrivers = async () => {
   const result = await prisma.driver.findMany({});
   return result;
@@ -61,47 +87,49 @@ const getDriver = async (id: string) => {
   return result;
 };
 
-// const updateDriver = async (data: Driver): Promise<Driver> => {
-//   const isExist = await prisma.profile.findUnique({
-//     where: { id: data.driverId },
-//   });
+const updateDriver = async (
+  id: string,
+  updateData: Partial<Driver>,
+): Promise<Driver> => {
+  await getDriver(id);
 
-//   if (isExist) {
-//     const result = await prisma.profile.update({
-//       where: { userId: data.userId },
-//       data: data,
-//     });
-//     return result;
-//   }
+  const result = await prisma.driver.update({
+    where: { id },
+    data: updateData,
+  });
 
-//   const result = await prisma.profile.create({ data });
-
-//   return result;
-// };
+  return result;
+};
 
 const deleteDriver = async (id: string): Promise<Driver> => {
-  // const usr = await prisma.user.findUnique({
-  //   where: { id },
-  //   include: { profile: true },
-  // });
-  // console.log(usr?.profile?.id);
-  // if (usr?.profile?.id) {
-  //   const deletedProfile = await prisma.profile.delete({
-  //     where: { id: usr?.profile?.id },
-  //   });
-  //   console.log(deletedProfile);
-  // }
+  const driverData = await prisma.driver.findUnique({
+    where: { id },
+    include: { user: true },
+  });
 
-  // const result = await prisma.user.delete({ where: { id } });
+  const usr = await prisma.user.findUnique({
+    where: { id: driverData?.user?.id },
+    include: { profile: true },
+  });
+
+  if (usr?.profile?.id) {
+    const deletedProfile = await prisma.profile.delete({
+      where: { id: usr?.profile?.id },
+    });
+    console.log(deletedProfile);
+  }
+
   const result = await prisma.driver.delete({ where: { id } });
-
+  const deletedUser = await prisma.user.delete({ where: { id: usr?.id } });
+  console.log(deletedUser);
   return result;
 };
 
 export const DriverService = {
   createDriver,
+  availableDrivers,
   getDrivers,
   getDriver,
-  // updateDriver,
+  updateDriver,
   deleteDriver,
 };

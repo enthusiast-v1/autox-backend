@@ -4,11 +4,13 @@ import { RentController } from './controller';
 import { RentValidation } from './validation';
 
 const router = Router();
-const { ZCreateRent, ZUpdateRent } = RentValidation;
+const { ZUpdateRent } = RentValidation;
+// const { ZCreateRent, ZUpdateRent } = RentValidation;
 const { createRent, updateRent, deleteRent, getRent, getRents } =
   RentController;
 
-router.post('/', validateRequest(ZCreateRent), createRent);
+router.post('/', createRent);
+// router.post('/', validateRequest(ZCreateRent), createRent);
 router.get('/', getRents);
 router.get('/:id', getRent);
 router.delete('/:id', deleteRent);

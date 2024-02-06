@@ -22,6 +22,7 @@ enum EGender {
 
 enum EDriverStatus {
   Available
+  Unavailable
   In_A_Trip
   Accident
   On_Vacation
@@ -98,7 +99,7 @@ model Driver {
 
   driverId      String
   licenseNo     String
-  licenseExpire DateTime
+  licenseExpire DateTime   
   nidNo         String
   status        EDriverStatus @default(Available)
 
