@@ -1,9 +1,9 @@
+import { ERole } from '@prisma/client';
 import { Router } from 'express';
+import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { ProfileController } from './controller';
 import { AuthValidation } from './validation';
-import { ERole } from '@prisma/client';
-import auth from '../../middlewares/auth';
 
 const router = Router();
 const { CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN } = ERole;
