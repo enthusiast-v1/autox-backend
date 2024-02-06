@@ -29,11 +29,9 @@ enum EDriverStatus {
 }
 
 enum ERentType {
-  Hourly
   Daily
   Weekly
   Monthly
-  Yearly
 }
 
 enum EFuelType {
@@ -74,6 +72,19 @@ enum EVehicleStatus {
   In_A_Trip
   Accident
   Maintenance
+}
+
+enum EBookingStatus {
+  Pending
+  Approved
+  In_Trip
+  End
+}
+
+enum EPaymentStatus {
+  Unpaid
+  Partial
+  Paid
 }
 
 model User {
@@ -138,23 +149,26 @@ model Profile {
 }
 
 model Vehicle {
-  id                String         @id @default(uuid())
-  vehicleId         String
-  model             String
-  mileage           Float
-  color             String
-  images            String[]
-  overview          String
-  basePrice         Int
-  fuelType          EFuelType
-  passengerCapacity Int
-  location          String
-  plateNo           String
-  chassisNo         String
-  status            EVehicleStatus @default(Available)
-  owner             String?
-  vehicleType       EVehicleType
-  brand             EVehicleBrand
+  id                 String         @id @default(uuid())
+  vehicleId          String
+  model              String
+  mileage            Float
+  color              String
+  images             String[]
+  overview           String
+  basePrice          Int
+  fuelType           EFuelType
+  passengerCapacity  Int
+  location           String
+  plateNo            String
+  chassisNo          String
+  status             EVehicleStatus @default(Available)
+  owner              String?
+  vehicleType        EVehicleType
+  brand              EVehicleBrand
+  year               String
+  registrationNumber String
+  rentalRate         Int
 
   driverId String @unique
   driver   Driver @relation(fields: [driverId], references: [id])
@@ -171,13 +185,13 @@ model Booking {
   id String @id @default(uuid())
 
   bookingId       String
-  pickUpDate      DateTime
-  dropOffDate     DateTime
-  pickUpTime      DateTime
-  dropOffTime     DateTime
+  pickUpDateTime  DateTime
+  returnDateTime  DateTime
   pickUpLocation  String
   dropOffLocation String
   rentType        ERentType
+  bookingStatus   EBookingStatus @default(Pending)
+  paymentStatus   EPaymentStatus @default(Unpaid)
 
   userId String
   user   User   @relation(fields: [userId], references: [id])

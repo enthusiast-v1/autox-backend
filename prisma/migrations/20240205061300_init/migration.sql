@@ -8,7 +8,7 @@ CREATE TYPE "EGender" AS ENUM ('Male', 'Female', 'Others');
 CREATE TYPE "EDriverStatus" AS ENUM ('Available', 'In_A_Trip', 'Accident', 'On_Vacation');
 
 -- CreateEnum
-CREATE TYPE "ERentType" AS ENUM ('Hourly', 'Daily', 'Weekly', 'Monthly', 'Yearly');
+CREATE TYPE "ERentType" AS ENUM ('Daily', 'Weekly', 'Monthly');
 
 -- CreateEnum
 CREATE TYPE "EFuelType" AS ENUM ('LPG', 'CNG', 'Petrol', 'Diesel', 'Gasoline', 'Kerosene');
@@ -21,6 +21,12 @@ CREATE TYPE "EVehicleBrand" AS ENUM ('Toyota', 'Hyundai', 'Audi', 'Proton', 'Mit
 
 -- CreateEnum
 CREATE TYPE "EVehicleStatus" AS ENUM ('Available', 'In_A_Trip', 'Accident', 'Maintenance');
+
+-- CreateEnum
+CREATE TYPE "EBookingStatus" AS ENUM ('Pending', 'Approved', 'In_Trip', 'End');
+
+-- CreateEnum
+CREATE TYPE "EPaymentStatus" AS ENUM ('Unpaid', 'Partial', 'Paid');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -85,6 +91,9 @@ CREATE TABLE "vehicles" (
     "owner" TEXT,
     "vehicleType" "EVehicleType" NOT NULL,
     "brand" "EVehicleBrand" NOT NULL,
+    "year" TEXT NOT NULL,
+    "registrationNumber" TEXT NOT NULL,
+    "rentalRate" INTEGER NOT NULL,
     "driverId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -96,13 +105,13 @@ CREATE TABLE "vehicles" (
 CREATE TABLE "bookings" (
     "id" TEXT NOT NULL,
     "bookingId" TEXT NOT NULL,
-    "pickUpDate" TIMESTAMP(3) NOT NULL,
-    "dropOffDate" TIMESTAMP(3) NOT NULL,
-    "pickUpTime" TIMESTAMP(3) NOT NULL,
-    "dropOffTime" TIMESTAMP(3) NOT NULL,
+    "pickUpDateTime" TIMESTAMP(3) NOT NULL,
+    "returnDateTime" TIMESTAMP(3) NOT NULL,
     "pickUpLocation" TEXT NOT NULL,
     "dropOffLocation" TEXT NOT NULL,
     "rentType" "ERentType" NOT NULL,
+    "bookingStatus" "EBookingStatus" NOT NULL DEFAULT 'Pending',
+    "paymentStatus" "EPaymentStatus" NOT NULL DEFAULT 'Unpaid',
     "userId" TEXT NOT NULL,
     "vehicleId" TEXT NOT NULL,
     "promoId" TEXT,
