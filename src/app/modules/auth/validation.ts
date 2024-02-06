@@ -18,4 +18,12 @@ const ZRegister = z.object({
   }),
 });
 
-export const AuthValidation = { ZLogin, ZRegister };
+const ZChangePassword = z.object({
+  body: z.object({
+    email: z.string({ required_error: 'Email is required!' }),
+    oldPassword: z.string({ required_error: 'Old password is required!' }),
+    newPassword: z.string({ required_error: 'New password is required!' }),
+  }),
+});
+
+export const AuthValidation = { ZLogin, ZRegister, ZChangePassword };

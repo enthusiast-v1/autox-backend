@@ -39,4 +39,14 @@ const register = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const AuthController = { login, register };
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  await AuthService.changePassword(req.body);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Password updated successfully',
+  });
+});
+
+export const AuthController = { login, register, changePassword };

@@ -11,8 +11,6 @@ type TRegisterResponse = {
   user: TUserWithoutPassword;
 } & TLoginResponse;
 
-// name,  email, image, address,  contactNo, password.
-
 type TRegister = {
   name: string;
   email: string;
@@ -22,4 +20,16 @@ type TRegister = {
   password: string;
 };
 
-export { TLoginResponse, TRegister, TRegisterResponse, TUserWithoutPassword };
+type TChangePassword = {
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+};
+
+export {
+  TLoginResponse,
+  TRegister,
+  TRegisterResponse,
+  TUserWithoutPassword,
+  TChangePassword,
+};

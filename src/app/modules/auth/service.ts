@@ -4,7 +4,12 @@ import ApiError from '../../../errors/ApiError';
 import { hashPassword, matchPassword } from '../../../helpers/bcrypt';
 import { createToken } from '../../../helpers/jwt';
 import { AuthConstant } from './constant';
-import { TLoginResponse, TRegister, TRegisterResponse } from './interface';
+import {
+  TChangePassword,
+  TLoginResponse,
+  TRegister,
+  TRegisterResponse,
+} from './interface';
 
 const { select } = AuthConstant;
 
@@ -54,4 +59,25 @@ const register = async ({
   return { accessToken, refreshToken, user };
 };
 
-export const AuthService = { login, register };
+const changePassword = async ({
+  email,
+  oldPassword,
+  newPassword,
+}: TChangePassword) => {
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  if (!user) throw new ApiError(404, 'User not found!');
+
+  const isPasswordMatched = await matchPassword(oldPassword, user?.password);
+
+  if (!isPasswordMatched) throw new ApiError(401, 'Password not matched!');
+
+  newPassword = await hashPassword(newPassword);
+
+  await prisma.user.update({
+    where: { email },
+    data: { password: newPassword },
+  });
+};
+
+export const AuthService = { login, register, changePassword };

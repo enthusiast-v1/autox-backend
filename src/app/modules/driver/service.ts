@@ -3,6 +3,7 @@ import { ERole } from '@prisma/client';
 import { TCreateDriver, TCreateDriverResponse } from './interface';
 import prisma from '../../../constants/prisma';
 import ApiError from '../../../errors/ApiError';
+import { hashPassword } from '../../../helpers/bcrypt';
 
 const createDriver = async ({
   email,
@@ -15,6 +16,7 @@ const createDriver = async ({
   ...profileData
 }: TCreateDriver): Promise<TCreateDriverResponse> => {
   driverId = await DriverUtils.generateDriverId();
+  password = await hashPassword(password);
 
   let result;
 
