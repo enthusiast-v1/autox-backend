@@ -26,7 +26,7 @@ const ZCreateBooking = z.object({
       .enum([...Object.keys(EPaymentStatus)] as [string, ...string[]])
       .default(EPaymentStatus.Unpaid)
       .optional(),
-    userId: z.string({ required_error: 'User id is required!' }),
+    driverId: z.string({ required_error: 'Driver id is required!' }),
     vehicleId: z.string({ required_error: 'Vehicle id is required!' }),
     promoId: z.string().optional(),
   }),

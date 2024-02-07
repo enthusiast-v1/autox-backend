@@ -28,6 +28,9 @@ CREATE TYPE "EBookingStatus" AS ENUM ('Pending', 'Approved', 'In_Trip', 'End');
 -- CreateEnum
 CREATE TYPE "EPaymentStatus" AS ENUM ('Unpaid', 'Partial', 'Paid');
 
+-- CreateEnum
+CREATE TYPE "ERentStatus" AS ENUM ('Pending', 'Active', 'End');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
@@ -133,6 +136,8 @@ CREATE TABLE "rents" (
     "damageCompensation" INTEGER,
     "refund" INTEGER,
     "totalCost" INTEGER NOT NULL,
+    "rentType" "ERentType" NOT NULL DEFAULT 'Daily',
+    "rentStatus" "ERentStatus" NOT NULL DEFAULT 'Pending',
     "bookingId" TEXT NOT NULL,
     "driverId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

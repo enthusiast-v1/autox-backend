@@ -55,7 +55,7 @@ const availableDrivers = async (date: string): Promise<Driver[]> => {
   const bookedDriverIds = (
     await prisma.booking.findMany({
       where: {
-        pickUpDate: date,
+        pickUpDateTime: date,
       },
       select: {
         driverId: true,

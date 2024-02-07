@@ -86,6 +86,11 @@ enum EPaymentStatus {
   Partial
   Paid
 }
+enum ERentStatus {
+  Pending
+  Active
+  End
+}
 
 model User {
   id String @id @default(uuid())
@@ -96,8 +101,6 @@ model User {
 
   profile Profile?
   driver  Driver?
-
-  bookings Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -110,7 +113,7 @@ model Driver {
 
   driverId      String
   licenseNo     String
-  licenseExpire DateTime
+  licenseExpire DateTime   
   nidNo         String
   status        EDriverStatus @default(Available)
 
@@ -120,6 +123,7 @@ model Driver {
   vehicle Vehicle?
   rents   Rent[]
   bookings    Booking[] @relation("DriverBookings")
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -192,18 +196,16 @@ model Booking {
   bookingStatus   EBookingStatus @default(Pending)
   paymentStatus   EPaymentStatus @default(Unpaid)
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+ 
 
   vehicleId String
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
 
-  promoId String?
   rent    Rent?
+  promoId String?
 
   driverId    String
   driver Driver @relation("DriverBookings", fields: [driverId], references: [id])
-
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -222,6 +224,8 @@ model Rent {
   damageCompensation Int?
   refund             Int?
   totalCost          Int
+  rentType   ERentType @default(Daily)
+  rentStatus  ERentStatus @default(Pending)
 
   bookingId String @unique
 

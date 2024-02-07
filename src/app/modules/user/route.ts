@@ -8,11 +8,8 @@ const { CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN } = ERole;
 const { getUsers, getUser, deleteUser } = ProfileController;
 
 router
-  // .delete('/:id', auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN), deleteUser)
-  // .get('/:id', auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN), getUser)
-  // .get('/', auth(ADMIN, SUPER_ADMIN), getUsers);
   .delete('/:id', auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN), deleteUser)
   .get('/:id', auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN), getUser)
-  .get('/', getUsers);
+  .get('/', auth(ADMIN, SUPER_ADMIN), getUsers);
 
 export const UserRoutes = router;

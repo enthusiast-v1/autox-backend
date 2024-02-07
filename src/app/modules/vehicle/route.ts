@@ -16,32 +16,21 @@ const {
   availableVehicles,
 } = VehicleController;
 
-// router
-//   .post(
-//     '/',
-//     auth(ADMIN, SUPER_ADMIN),
-//     validateRequest(ZCreateVehicle),
-//     createVehicle,
-//   )
-//   .patch(
-//     '/:id',
-//     auth(ADMIN, SUPER_ADMIN),
-//     validateRequest(ZUpdateVehicle),
-//     updateVehicle,
-//   )
-//   .get('/:id', getVehicle)
-//   .get('/', getVehicles)
-//   .get('/freeVehicle', availableVehicles);
 router
-  .post('/', validateRequest(ZCreateVehicle), createVehicle)
+  .post(
+    '/',
+    auth(ADMIN, SUPER_ADMIN),
+    validateRequest(ZCreateVehicle),
+    createVehicle,
+  )
   .patch(
     '/:id',
     auth(ADMIN, SUPER_ADMIN),
     validateRequest(ZUpdateVehicle),
     updateVehicle,
   )
-  .get('/free-vehicle', availableVehicles)
   .get('/:id', getVehicle)
-  .get('/', getVehicles);
+  .get('/', getVehicles)
+  .get('/freeVehicle', availableVehicles);
 
 export const VehicleRoutes = router;
