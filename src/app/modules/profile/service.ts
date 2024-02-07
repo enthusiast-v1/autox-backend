@@ -1,22 +1,16 @@
 import { Profile } from '@prisma/client';
 import prisma from '../../../constants/prisma';
 
-const updateProfile = async (data: Profile): Promise<Profile> => {
-  const isExist = await prisma.profile.findUnique({
-    where: { userId: data.userId },
+const updateProfile = async (
+  id: string,
+  payload: Partial<Profile>,
+): Promise<Profile> => {
+  const profile = await prisma.profile.update({
+    where: { id },
+    data: payload,
   });
 
-  if (isExist) {
-    const result = await prisma.profile.update({
-      where: { userId: data.userId },
-      data: data,
-    });
-    return result;
-  }
-
-  const result = await prisma.profile.create({ data });
-
-  return result;
+  return profile;
 };
 
 const getProfiles = async () => {

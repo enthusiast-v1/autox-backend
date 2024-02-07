@@ -5,7 +5,7 @@ import sendResponse from '../../../shared/sendResponse';
 import { ProfileService } from './service';
 
 const updateProfile = catchAsync(async (req: Request, res: Response) => {
-  const data = await ProfileService.updateProfile(req.body);
+  const data = await ProfileService.updateProfile(req.params.id, req.body);
 
   sendResponse<Profile>(res, {
     statusCode: 200,

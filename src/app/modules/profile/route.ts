@@ -13,7 +13,7 @@ const { getProfile, getProfiles, deleteProfile, updateProfile } =
 
 router
   .patch(
-    '/',
+    '/:id',
     auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN),
     validateRequest(ZProfileUpdate),
     updateProfile,
