@@ -105,9 +105,18 @@ const updateBooking = async (
   return booking;
 };
 
+const deleteBooking = async (id: string): Promise<Booking> => {
+  const booking = await prisma.booking.delete({ where: { id } });
+
+  if (!booking) throw new ApiError(400, 'Failed to created booking!');
+
+  return booking;
+};
+
 export const BookingService = {
   createBooking,
   getBooking,
   getBookings,
   updateBooking,
+  deleteBooking,
 };

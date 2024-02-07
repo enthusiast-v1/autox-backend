@@ -86,6 +86,7 @@ enum EPaymentStatus {
   Partial
   Paid
 }
+
 enum ERentStatus {
   Pending
   Active
@@ -99,8 +100,9 @@ model User {
   password String
   role     ERole  @default(CUSTOMER)
 
-  profile Profile?
-  driver  Driver?
+  profile  Profile?
+  driver   Driver?
+  bookings Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -113,17 +115,16 @@ model Driver {
 
   driverId      String
   licenseNo     String
-  licenseExpire DateTime   
+  licenseExpire DateTime
   nidNo         String
   status        EDriverStatus @default(Available)
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
 
-  vehicle Vehicle?
-  rents   Rent[]
-  bookings    Booking[] @relation("DriverBookings")
-
+  vehicle  Vehicle?
+  rents    Rent[]
+  bookings Booking[] @relation("DriverBookings")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -196,16 +197,17 @@ model Booking {
   bookingStatus   EBookingStatus @default(Pending)
   paymentStatus   EPaymentStatus @default(Unpaid)
 
- 
-
   vehicleId String
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
 
   rent    Rent?
   promoId String?
 
-  driverId    String
-  driver Driver @relation("DriverBookings", fields: [driverId], references: [id])
+  driverId String
+  driver   Driver @relation("DriverBookings", fields: [driverId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -218,14 +220,14 @@ model Rent {
 
   downPayment        Int?
   discount           Int?
-  startTime          DateTime  @db.Date
-  endTime            DateTime  @db.Date
-  overTime           DateTime? @db.Date
+  startTime          DateTime    @db.Date
+  endTime            DateTime    @db.Date
+  overTime           DateTime?   @db.Date
   damageCompensation Int?
   refund             Int?
   totalCost          Int
-  rentType   ERentType @default(Daily)
-  rentStatus  ERentStatus @default(Pending)
+  rentType           ERentType   @default(Daily)
+  rentStatus         ERentStatus @default(Pending)
 
   bookingId String @unique
 

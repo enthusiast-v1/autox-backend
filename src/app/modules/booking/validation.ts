@@ -28,6 +28,7 @@ const ZCreateBooking = z.object({
       .optional(),
     driverId: z.string({ required_error: 'Driver id is required!' }),
     vehicleId: z.string({ required_error: 'Vehicle id is required!' }),
+    userId: z.string({ required_error: 'User id is required!' }),
     promoId: z.string().optional(),
   }),
 });
