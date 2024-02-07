@@ -12,16 +12,17 @@ const bookingFilterableFields: string[] = [
   'paymentStatus',
 ];
 
-const bookingRelationalFields: string[] = ['vehicleId', 'userId'];
+const bookingRelationalFields: string[] = ['vehicleId', 'userId', 'driverId'];
 
 const bookingRelationalFieldsMapper: { [key: string]: string } = {
   vehicleId: 'vehicle',
   userId: 'user',
+  driverId: 'driver',
 };
 
 export {
-  bookingSearchableFields,
   bookingFilterableFields,
   bookingRelationalFields,
   bookingRelationalFieldsMapper,
+  bookingSearchableFields,
 };

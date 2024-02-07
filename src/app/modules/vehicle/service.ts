@@ -123,10 +123,19 @@ const updateVehicle = async (
   return vehicle;
 };
 
+const deleteVehicle = async (id: string): Promise<Vehicle> => {
+  const vehicle = await prisma.vehicle.delete({ where: { id } });
+
+  if (!vehicle) throw new ApiError(400, 'Failed to delete vehicle!');
+
+  return vehicle;
+};
+
 export const VehicleService = {
   createVehicle,
   getVehicle,
   getVehicles,
   updateVehicle,
   availableVehicles,
+  deleteVehicle,
 };

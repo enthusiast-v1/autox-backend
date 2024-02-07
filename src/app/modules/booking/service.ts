@@ -2,13 +2,13 @@
 import { Booking, Prisma } from '@prisma/client';
 import prisma from '../../../constants/prisma';
 import ApiError from '../../../errors/ApiError';
-import { BookingUtils } from './utils';
-import { TBookingFilterRequest } from './interface';
-import IPaginationOptions from '../../../interfaces/pagination';
-import { IGenericResponse } from '../../../interfaces/common';
 import { calculatePagination } from '../../../helpers/pagination';
-import { bookingRelationalFields, bookingSearchableFields } from './constants';
+import { IGenericResponse } from '../../../interfaces/common';
+import IPaginationOptions from '../../../interfaces/pagination';
 import { vehicleRelationalFieldsMapper } from '../vehicle/constants';
+import { bookingRelationalFields, bookingSearchableFields } from './constants';
+import { TBookingFilterRequest } from './interface';
+import { BookingUtils } from './utils';
 
 const createBooking = async (data: Booking): Promise<Booking> => {
   const vehicle = await prisma.vehicle.findUnique({
@@ -34,7 +34,7 @@ const createBooking = async (data: Booking): Promise<Booking> => {
 const getBooking = async (id: string): Promise<Booking> => {
   const booking = await prisma.booking.findUnique({
     where: { id },
-    include: { user: true },
+    include: { user: true, driver: true, vehicle: true },
   });
 
   if (!booking) throw new ApiError(404, 'Booking not found!');
@@ -108,7 +108,7 @@ const updateBooking = async (
 const deleteBooking = async (id: string): Promise<Booking> => {
   const booking = await prisma.booking.delete({ where: { id } });
 
-  if (!booking) throw new ApiError(400, 'Failed to created booking!');
+  if (!booking) throw new ApiError(400, 'Failed to delete booking!');
 
   return booking;
 };

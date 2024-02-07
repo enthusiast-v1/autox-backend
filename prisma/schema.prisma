@@ -124,7 +124,7 @@ model Driver {
 
   vehicle  Vehicle?
   rents    Rent[]
-  bookings Booking[] @relation("DriverBookings")
+  bookings Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -204,7 +204,7 @@ model Booking {
   promoId String?
 
   driverId String
-  driver   Driver @relation("DriverBookings", fields: [driverId], references: [id])
+  driver   Driver @relation(fields: [driverId], references: [id])
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
