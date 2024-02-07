@@ -42,7 +42,7 @@ const createDriver = async ({
       data: { userId, ...profileData },
     });
 
-    result = { ...user, ...driver, ...profile };
+    result = { ...user, ...profile, ...driver };
   });
 
   if (!result) throw new ApiError(400, 'Failed to create driver!');

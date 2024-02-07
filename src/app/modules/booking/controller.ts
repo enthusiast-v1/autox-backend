@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
-import catchAsync from '../../../shared/catchAsync';
-import { BookingService } from './service';
-import sendResponse from '../../../shared/sendResponse';
 import { Booking } from '@prisma/client';
-import pick from '../../../shared/pick';
-import { bookingFilterableFields } from './constants';
+import { Request, Response } from 'express';
 import paginationFields from '../../../constants/pagination';
+import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
+import sendResponse from '../../../shared/sendResponse';
+import { bookingFilterableFields } from './constants';
+import { BookingService } from './service';
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
   const data = await BookingService.createBooking(req.body);
@@ -59,7 +59,7 @@ const deleteBooking = catchAsync(async (req: Request, res: Response) => {
   const data = await BookingService.deleteBooking(req.params.id);
 
   sendResponse<Booking>(res, {
-    statusCode: 204,
+    statusCode: 200,
     success: true,
     message: 'Booking deleted successfully',
     data,

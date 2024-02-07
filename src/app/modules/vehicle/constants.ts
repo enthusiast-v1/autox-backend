@@ -2,7 +2,6 @@ const vehicleSearchableFields: string[] = [
   'model',
   'color',
   'location',
-  'brand',
   'year',
 ];
 
@@ -29,8 +28,8 @@ const vehicleRelationalFieldsMapper: { [key: string]: string } = {
 };
 
 export {
-  vehicleSearchableFields,
   vehicleFilterableFields,
   vehicleRelationalFields,
   vehicleRelationalFieldsMapper,
+  vehicleSearchableFields,
 };
