@@ -13,6 +13,7 @@ const { createRent, updateRent, deleteRent, getRent, getRents } =
 
 router
   .post('/', validateRequest(ZCreateRent), createRent)
+  .get('/', auth(ADMIN, SUPER_ADMIN), getRents)
   .patch(
     '/:id',
     auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN),
@@ -20,7 +21,6 @@ router
     updateRent,
   )
   .delete('/:id', auth(ADMIN, SUPER_ADMIN), deleteRent)
-  .get('/:id', auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN), getRent)
-  .get('/', auth(ADMIN, SUPER_ADMIN), getRents);
+  .get('/:id', auth(CUSTOMER, DRIVER, ADMIN, SUPER_ADMIN), getRent);
 
 export const RentRoutes = router;

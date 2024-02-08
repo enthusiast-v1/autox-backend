@@ -1,7 +1,10 @@
 import { Rent } from '@prisma/client';
 import { Request, Response } from 'express';
+import paginationFields from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { rentFilterableFields } from './constants';
 import { RentService } from './service';
 
 const createRent = catchAsync(async (req: Request, res: Response) => {
@@ -16,12 +19,15 @@ const createRent = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getRents = catchAsync(async (req: Request, res: Response) => {
-  const data = await RentService.getRents();
+  const filters = pick(req.query, rentFilterableFields);
+  const options = pick(req.query, paginationFields);
+  const { meta, data } = await RentService.getRents(filters, options);
 
   sendResponse<Rent[]>(res, {
     statusCode: 200,
     success: true,
     message: 'Rents retrieve successfully!',
+    meta,
     data,
   });
 });

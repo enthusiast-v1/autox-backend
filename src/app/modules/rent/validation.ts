@@ -4,7 +4,7 @@ const ZCreateRent = z.object({
   body: z.object({
     downPayment: z.number().optional(),
     discount: z.number().optional(),
-    startTime: z.string({ required_error: 'startTime required' }),
+    startTime: z.string({ required_error: 'startTime required' }).optional(),
     endTime: z.string({ required_error: 'endTime required' }),
     overTime: z.string().optional(),
     damageCompensation: z.number().optional(),
@@ -20,5 +20,5 @@ const ZCreateRent = z.object({
   }),
 });
 
-const ZUpdateRent = ZCreateRent.partial();
+const ZUpdateRent = ZCreateRent.deepPartial();
 export const RentValidation = { ZCreateRent, ZUpdateRent };
