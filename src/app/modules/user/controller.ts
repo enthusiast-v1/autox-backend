@@ -29,11 +29,11 @@ const getUser = catchAsync(async (req: Request, res: Response) => {
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const data = await ProfileService.deleteUser(req.params.id);
 
-  sendResponse<User>(res, {
+  sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'User Deleted successfully!',
-    data,
+    data: { message: data },
   });
 });
 

@@ -67,10 +67,22 @@ const updateVehicle = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteVehicle = catchAsync(async (req: Request, res: Response) => {
+  const data = await VehicleService.deleteVehicle(req.params.id);
+
+  sendResponse<Vehicle>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Vehicle deleted successfully',
+    data,
+  });
+});
+
 export const VehicleController = {
   createVehicle,
   getVehicle,
   getVehicles,
   updateVehicle,
   availableVehicles,
+  deleteVehicle,
 };

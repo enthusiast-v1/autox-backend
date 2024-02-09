@@ -21,15 +21,14 @@ type TRegister = {
 };
 
 type TChangePassword = {
-  email: string;
   oldPassword: string;
   newPassword: string;
 };
 
 export {
+  TChangePassword,
   TLoginResponse,
   TRegister,
   TRegisterResponse,
   TUserWithoutPassword,
-  TChangePassword,
 };

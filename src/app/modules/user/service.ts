@@ -1,4 +1,5 @@
 import prisma from '../../../constants/prisma';
+import ApiError from '../../../errors/ApiError';
 
 const getUsers = async () => {
   const result = await prisma.user.findMany({
@@ -22,22 +23,17 @@ const getUser = async (id: string) => {
   return result;
 };
 
-const deleteUser = async (id: string) => {
-  const usr = await prisma.user.findUnique({
-    where: { id },
-    include: { profile: true },
+const deleteUser = async (id: string): Promise<string> => {
+  const user = await prisma.user.findUnique({ where: { id } });
+
+  if (!user) throw new ApiError(404, 'User not found!');
+
+  await prisma.$transaction(async tx => {
+    await tx.profile.delete({ where: { id: user.id } });
+    await tx.user.delete({ where: { id } });
   });
-  console.log(usr?.profile?.id);
-  if (usr?.profile?.id) {
-    const deletedProfile = await prisma.profile.delete({
-      where: { id: usr?.profile?.id },
-    });
-    console.log(deletedProfile);
-  }
 
-  const result = await prisma.user.delete({ where: { id } });
-
-  return result;
+  return 'User and profile deleted successfully';
 };
 
 export const ProfileService = {
