@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import catchAsync from '../../../shared/catchAsync';
-import { AuthService } from './service';
 import config from '../../../config';
+import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { TLoginResponse, TRegisterResponse } from './interface';
+import { AuthService } from './service';
 
 const login = catchAsync(async (req: Request, res: Response) => {
   const { accessToken, refreshToken } = await AuthService.login(req.body);
@@ -40,12 +40,13 @@ const register = catchAsync(async (req: Request, res: Response) => {
 });
 
 const changePassword = catchAsync(async (req: Request, res: Response) => {
-  await AuthService.changePassword(req.body);
+  const data = await AuthService.changePassword(req.user?.id, req.body);
 
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'Password updated successfully',
+    data: { message: data },
   });
 });
 

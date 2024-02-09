@@ -70,7 +70,6 @@ const getVehicles = async (
   const total = await prisma.vehicle.count({ where });
 
   const data = await prisma.vehicle.findMany({
-    include: { driver: true },
     where,
     skip,
     take: limit,
@@ -117,7 +116,6 @@ const updateVehicle = async (
   const vehicle = await prisma.vehicle.update({
     where: { id },
     data: payload,
-    include: { driver: true },
   });
 
   return vehicle;

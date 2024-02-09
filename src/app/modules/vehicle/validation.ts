@@ -40,7 +40,6 @@ const ZCreateVehicle = z.object({
       required_error: 'Registration number is required!',
     }),
     rentalRate: z.number({ required_error: 'Rental rate is required!' }),
-    driverId: z.string({ required_error: 'Driver id is required!' }),
   }),
 });
 
