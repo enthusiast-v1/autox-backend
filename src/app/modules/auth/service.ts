@@ -59,12 +59,11 @@ const register = async ({
   return { accessToken, refreshToken, user };
 };
 
-const changePassword = async ({
-  email,
-  oldPassword,
-  newPassword,
-}: TChangePassword) => {
-  const user = await prisma.user.findUnique({ where: { email } });
+const changePassword = async (
+  id: string,
+  { oldPassword, newPassword }: TChangePassword,
+): Promise<string> => {
+  const user = await prisma.user.findUnique({ where: { id } });
 
   if (!user) throw new ApiError(404, 'User not found!');
 
@@ -75,9 +74,11 @@ const changePassword = async ({
   newPassword = await hashPassword(newPassword);
 
   await prisma.user.update({
-    where: { email },
+    where: { id },
     data: { password: newPassword },
   });
+
+  return 'Password updated successfully';
 };
 
 export const AuthService = { login, register, changePassword };

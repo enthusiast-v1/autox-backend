@@ -14,6 +14,7 @@ const {
   getVehicles,
   updateVehicle,
   availableVehicles,
+  deleteVehicle,
 } = VehicleController;
 
 router
@@ -29,6 +30,7 @@ router
     validateRequest(ZUpdateVehicle),
     updateVehicle,
   )
+  .delete('/:id', auth(ADMIN, SUPER_ADMIN), deleteVehicle)
   .get('/:id', getVehicle)
   .get('/', getVehicles)
   .get('/freeVehicle', availableVehicles);

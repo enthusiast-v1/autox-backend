@@ -17,10 +17,11 @@ const createDriver = catchAsync(async (req: Request, res: Response) => {
 });
 
 const availableDrivers = catchAsync(async (req: Request, res: Response) => {
-  const { date } = req.query; // Assuming the date is passed as a query parameter
+  // const { date } = req.query; // Assuming the date is passed as a query parameter
 
-  const data = await DriverService.availableDrivers(date as string);
-  sendResponse<Driver[]>(res, {
+  // const data = await DriverService.availableDrivers(date as string);
+  const data = await DriverService.availableDrivers();
+  sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'Available Drivers retrieve successfully!',

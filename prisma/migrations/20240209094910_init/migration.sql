@@ -97,7 +97,6 @@ CREATE TABLE "vehicles" (
     "year" TEXT NOT NULL,
     "registrationNumber" TEXT NOT NULL,
     "rentalRate" INTEGER NOT NULL,
-    "driverId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -117,7 +116,7 @@ CREATE TABLE "bookings" (
     "paymentStatus" "EPaymentStatus" NOT NULL DEFAULT 'Unpaid',
     "vehicleId" TEXT NOT NULL,
     "promoId" TEXT,
-    "driverId" TEXT NOT NULL,
+    "driverId" TEXT,
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -139,7 +138,6 @@ CREATE TABLE "rents" (
     "rentType" "ERentType" NOT NULL DEFAULT 'Daily',
     "rentStatus" "ERentStatus" NOT NULL DEFAULT 'Pending',
     "bookingId" TEXT NOT NULL,
-    "driverId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -156,9 +154,6 @@ CREATE UNIQUE INDEX "drivers_userId_key" ON "drivers"("userId");
 CREATE UNIQUE INDEX "profiles_userId_key" ON "profiles"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "vehicles_driverId_key" ON "vehicles"("driverId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "rents_bookingId_key" ON "rents"("bookingId");
 
 -- AddForeignKey
@@ -168,19 +163,13 @@ ALTER TABLE "drivers" ADD CONSTRAINT "drivers_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "profiles" ADD CONSTRAINT "profiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "vehicles" ADD CONSTRAINT "vehicles_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "drivers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "bookings" ADD CONSTRAINT "bookings_vehicleId_fkey" FOREIGN KEY ("vehicleId") REFERENCES "vehicles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "bookings" ADD CONSTRAINT "bookings_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "drivers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "bookings" ADD CONSTRAINT "bookings_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "drivers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "bookings" ADD CONSTRAINT "bookings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "rents" ADD CONSTRAINT "rents_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "bookings"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "rents" ADD CONSTRAINT "rents_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "drivers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
