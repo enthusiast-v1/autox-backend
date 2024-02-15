@@ -161,7 +161,7 @@ model Vehicle {
   basePrice          Int
   fuelType           EFuelType
   passengerCapacity  Int
-  location           String
+  location           String?
   plateNo            String
   chassisNo          String
   status             EVehicleStatus @default(Available)

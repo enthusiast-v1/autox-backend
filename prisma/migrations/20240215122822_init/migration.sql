@@ -87,7 +87,7 @@ CREATE TABLE "vehicles" (
     "basePrice" INTEGER NOT NULL,
     "fuelType" "EFuelType" NOT NULL,
     "passengerCapacity" INTEGER NOT NULL,
-    "location" TEXT NOT NULL,
+    "location" TEXT,
     "plateNo" TEXT NOT NULL,
     "chassisNo" TEXT NOT NULL,
     "status" "EVehicleStatus" NOT NULL DEFAULT 'Available',
