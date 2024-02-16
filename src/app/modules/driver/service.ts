@@ -1,8 +1,21 @@
-import { Driver, ERole } from '@prisma/client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Driver, ERole, Prisma } from '@prisma/client';
 import prisma from '../../../constants/prisma';
 import ApiError from '../../../errors/ApiError';
 import { hashPassword } from '../../../helpers/bcrypt';
-import { TCreateDriver, TCreateDriverResponse } from './interface';
+import { calculatePagination } from '../../../helpers/pagination';
+import { IGenericResponse } from '../../../interfaces/common';
+import IPaginationOptions from '../../../interfaces/pagination';
+import {
+  driverRelationalFields,
+  driverRelationalFieldsMapper,
+  driverSearchableFields,
+} from './constants';
+import {
+  TCreateDriver,
+  TCreateDriverResponse,
+  TDriverFilterRequest,
+} from './interface';
 import { DriverUtils } from './utils';
 
 const createDriver = async ({
@@ -77,9 +90,55 @@ Promise<string> => {
   return '';
 };
 
-const getDrivers = async () => {
-  const result = await prisma.driver.findMany({});
-  return result;
+const getDrivers = async (
+  { searchTerm, ...filterData }: TDriverFilterRequest,
+  options: IPaginationOptions,
+): Promise<IGenericResponse<Driver[]>> => {
+  const pipeline = [];
+  const { limit, page, skip } = calculatePagination(options);
+
+  if (searchTerm) {
+    pipeline.push({
+      OR: driverSearchableFields.map(field => ({
+        [field]: { contains: searchTerm, mode: 'insensitive' },
+      })),
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    pipeline.push({
+      AND: Object.keys(filterData).map(key => {
+        if (driverRelationalFields.includes(key)) {
+          return {
+            [driverRelationalFieldsMapper[key]]: {
+              id: (filterData as any)[key],
+            },
+          };
+        } else {
+          return {
+            [key]: { equals: (filterData as any)[key] },
+          };
+        }
+      }),
+    });
+  }
+
+  const where: Prisma.VehicleWhereInput =
+    pipeline.length > 0 ? { AND: pipeline } : {};
+
+  const total = await prisma.driver.count({ where });
+
+  const data = await prisma.driver.findMany({
+    where,
+    skip,
+    take: limit,
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? { [options.sortBy]: options.sortOrder }
+        : { createdAt: 'desc' },
+  });
+
+  return { meta: { total, page, limit }, data };
 };
 
 const getDriver = async (id: string) => {

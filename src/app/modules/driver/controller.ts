@@ -1,7 +1,10 @@
 import { Driver } from '@prisma/client';
 import { Request, Response } from 'express';
+import paginationFields from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { driverFilterableFields } from './constants';
 import { TCreateDriverResponse } from './interface';
 import { DriverService } from './service';
 
@@ -29,12 +32,16 @@ const availableDrivers = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getDrivers = catchAsync(async (req: Request, res: Response) => {
-  const data = await DriverService.getDrivers();
+  const filters = pick(req.query, driverFilterableFields);
+  const options = pick(req.query, paginationFields);
+
+  const { meta, data } = await DriverService.getDrivers(filters, options);
 
   sendResponse<Driver[]>(res, {
     statusCode: 200,
     success: true,
     message: 'Drivers retrieve successfully!',
+    meta,
     data,
   });
 });
