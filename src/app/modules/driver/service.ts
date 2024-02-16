@@ -78,7 +78,7 @@ Promise<string> => {
 };
 
 const getDrivers = async () => {
-  const result = await prisma.driver.findMany({});
+  const result = await prisma.driver.findMany({ include: { user: true } });
   return result;
 };
 

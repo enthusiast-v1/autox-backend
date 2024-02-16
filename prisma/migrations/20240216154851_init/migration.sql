@@ -48,7 +48,7 @@ CREATE TABLE "drivers" (
     "id" TEXT NOT NULL,
     "driverId" TEXT NOT NULL,
     "licenseNo" TEXT NOT NULL,
-    "licenseExpire" TIMESTAMP(3) NOT NULL,
+    "licenseExpire" TIMESTAMP(3),
     "nidNo" TEXT NOT NULL,
     "status" "EDriverStatus" NOT NULL DEFAULT 'Available',
     "userId" TEXT NOT NULL,

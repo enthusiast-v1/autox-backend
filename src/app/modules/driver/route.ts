@@ -17,17 +17,17 @@ const {
   availableDrivers,
 } = DriverController;
 
-router.post(
-  '/',
-  auth(ADMIN, SUPER_ADMIN),
-  validateRequest(ZCreateDriver),
-  createDriver,
-);
-
-router.get('/', getDrivers);
-router.get('/free-drivers', availableDrivers);
-router.get('/:id', getDriver);
-router.patch('/:id', updateDriver);
-router.delete('/:id', deleteDriver);
+router
+  .post(
+    '/',
+    auth(ADMIN, SUPER_ADMIN),
+    validateRequest(ZCreateDriver),
+    createDriver,
+  )
+  .delete('/:id', deleteDriver)
+  .patch('/:id', updateDriver)
+  .get('/free-drivers', availableDrivers)
+  .get('/:id', getDriver)
+  .get('/', getDrivers);
 
 export const DriverRoutes = router;

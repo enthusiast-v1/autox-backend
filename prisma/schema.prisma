@@ -115,7 +115,7 @@ model Driver {
 
   driverId      String
   licenseNo     String
-  licenseExpire DateTime
+  licenseExpire DateTime?
   nidNo         String
   status        EDriverStatus @default(Available)
 
