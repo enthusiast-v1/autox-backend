@@ -6,7 +6,7 @@ import { DriverController } from './controller';
 import { DriverValidation } from './validation';
 
 const router = Router();
-const { ADMIN, SUPER_ADMIN } = ERole;
+const { ADMIN, SUPER_ADMIN, DRIVER, CUSTOMER } = ERole;
 const { ZCreateDriver } = DriverValidation;
 const {
   createDriver,
@@ -24,10 +24,10 @@ router.post(
   createDriver,
 );
 
-router.get('/', getDrivers);
+router.get('/', auth(ADMIN, SUPER_ADMIN), getDrivers);
 router.get('/free-drivers', availableDrivers);
-router.get('/:id', getDriver);
-router.patch('/:id', updateDriver);
-router.delete('/:id', deleteDriver);
+router.get('/:id', auth(ADMIN, SUPER_ADMIN, DRIVER, CUSTOMER), getDriver);
+router.patch('/:id', auth(ADMIN, SUPER_ADMIN, DRIVER), updateDriver);
+router.delete('/:id', auth(ADMIN, SUPER_ADMIN), deleteDriver);
 
 export const DriverRoutes = router;
