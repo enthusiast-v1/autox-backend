@@ -15,4 +15,10 @@ export default {
     refresh_expires_in: pnv.JWT_REFRESH_EXPIRES_IN,
   },
   bcrypt_slat_round: pnv.BCRYPT_SALT_ROUNDS,
+  ssl: {
+    storeId: pnv.STORE_ID,
+    storePass: pnv.STORE_PASS,
+    sslPaymentUrl: pnv.SSL_BASE_PAYMENT_URL,
+    sslValidationUrl: pnv.SSL_BASE_VALIDATION_URL,
+  },
 };
